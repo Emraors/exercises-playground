@@ -3,6 +3,18 @@ package com.example.stack;
 import java.util.Stack;
 
 public class LeetCodeStack {
+	public String removeStars(String s) {
+		StringBuilder result = new StringBuilder();
+		Stack<Character> characterStack = new Stack<>();
+		for (char c : s.toCharArray()) {
+			if (c == '*') {
+				characterStack.pop();
+			} else
+				characterStack.push(c);
+		}
+		characterStack.forEach(result::append);
+		return result.toString();
+	}
 
 	public String decodeString(String s) {
 		State state = new State();
