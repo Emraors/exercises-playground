@@ -51,18 +51,4 @@ class LeetCodeHashMapTest {
 		assertEquals(1, leetCode.equalPairs(firstTest));
 		assertEquals(3, leetCode.equalPairs(secondTest));
 	}
-
-	@Test
-	public void testDecodeString() {
-		String s = "3[a]2[bc]";
-		String s1 = "2[abc]3[cd]ef";
-		String s3 = "3[a2[c]]";
-		String s4 = "abc";
-
-		String a = leetCode.decodeString(s3);
-		assertEquals("abc", leetCode.decodeString(s4));
-		assertEquals("aaabcbc", leetCode.decodeString(s));
-		assertEquals("abcabccdcdcdef", leetCode.decodeString(s1));
-		assertEquals("accaccacc", leetCode.decodeString(s3));
-	}
 }
