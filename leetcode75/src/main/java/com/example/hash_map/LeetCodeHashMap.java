@@ -48,27 +48,49 @@ public class LeetCodeHashMap {
 	private HashMap<Character, Integer> getFrequencies(String word) {
 		HashMap<Character, Integer> frequencies = new HashMap<>();
 		for (char c : word.toCharArray()) {
-			Integer i = frequencies.get(c);
-			if (Objects.isNull(i)) {
-				frequencies.put(c, 1);
-			} else {
-				frequencies.put(c, i + 1);
-			}
+			frequencies.put(c, frequencies.getOrDefault(c, 1) + 1);
 		}
 		return frequencies;
 	}
 
 	public int equalPairs(int[][] grid) {
-		int counter = 0, length = grid.length;
-		int[] ints = new int[length];
-		HashMap<Integer, int[]> rows = new HashMap<>();
-		HashMap<Integer, int[]> columns = new HashMap<>();
+		int n = grid.length, count = 0;
+		Map<ArrayKey, Integer> frequency = new HashMap<>();
 		for (int[] row : grid) {
-			rows.put(counter, row);
-			columns.put(counter, new int[length]);
-			counter++;
+			ArrayKey key = new ArrayKey(row);
+			frequency.put(key, frequency.getOrDefault(key, 0) + 1);
 		}
-		return 0;
+		for (int j = 0; j < n; j++) {
+			int[] col = new int[n];
+			for (int i = 0; i < n; i++) {
+				col[i] = grid[i][j];
+			}
+			ArrayKey key = new ArrayKey(col);
+			count += frequency.getOrDefault(key, 0);
+		}
+		return count;
+	}
+
+	private static class ArrayKey {
+		private final int[] array;
+
+		public ArrayKey(int[] array) {
+			this.array = array;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o)
+				return true;
+			if (!(o instanceof ArrayKey other))
+				return false;
+			return Arrays.equals(this.array, other.array);
+		}
+
+		@Override
+		public int hashCode() {
+			return Arrays.hashCode(array);
+		}
 	}
 
 }
