@@ -1,8 +1,36 @@
 package com.example.stack;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Stack;
 
 public class LeetCodeStack {
+
+	public int[] asteroidCollision(int[] asteroids) {
+		Deque<Integer> resultDeque = new ArrayDeque<>();
+
+		for (int a : asteroids) {
+			if (a > 0) {
+				resultDeque.push(a);
+			} else {
+				while (!resultDeque.isEmpty() && resultDeque.peek() > 0 && resultDeque.peek() < Math.abs(a)) {
+					resultDeque.pop();
+				}
+				if (resultDeque.isEmpty() || resultDeque.peek() < 0) {
+					resultDeque.push(a);
+				} else if (resultDeque.peek() == Math.abs(a)) {
+					resultDeque.pop();
+				}
+			}
+		}
+		int length = resultDeque.size();
+		int[] result = new int[length];
+		for (int i = 0; i < length; i++) {
+			result[i] = resultDeque.removeLast();
+		}
+		return result;
+	}
+
 	public String removeStars(String s) {
 		StringBuilder result = new StringBuilder();
 		Stack<Character> characterStack = new Stack<>();
