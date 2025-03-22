@@ -18,4 +18,22 @@ class LeetCodeQueueTest {
 		assertEquals(3, recentCounter.ping(3001));
 		assertEquals(3, recentCounter.ping(3002));
 	}
+
+	@Test
+	public void testPredictPartyVictory() {
+		String RADIANT = "Radiant";
+		String DIRE = "Dire";
+
+		String firstTest = "RD";
+		String secondTest = "RDD";
+		String thirdTest = "RRRD";
+		String fourthTest = "DDRRR";
+		String fifthTest = "DDRRRR";
+
+		assertEquals(RADIANT, leetCode.predictPartyVictory(firstTest));
+		assertEquals(DIRE, leetCode.predictPartyVictory(secondTest));
+		assertEquals(RADIANT, leetCode.predictPartyVictory(thirdTest));
+		assertEquals(DIRE, leetCode.predictPartyVictory(fourthTest));
+		assertEquals(RADIANT, leetCode.predictPartyVictory(fifthTest));
+	}
 }
