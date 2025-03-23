@@ -59,7 +59,25 @@ public class LeetCodeLinkedList {
 	}
 
 	public int pairSum(ListNode head) {
-		return 0;
+		if (head == null || head.next == null)
+			return 0;
+
+		int sum = 0;
+		ListNode slowNode = head;
+		ListNode fastNode = head;
+
+		while (fastNode != null && fastNode.next != null) {
+			slowNode = slowNode.next;
+			fastNode = fastNode.next.next;
+		}
+
+		ListNode secondHalf = reverseList(slowNode);
+		while (head != null && secondHalf != null) {
+			sum = Math.max(head.val + secondHalf.val, sum);
+			head = head.next;
+			secondHalf = secondHalf.next;
+		}
+		return sum;
 	}
 
 	public static class ListNode {
