@@ -26,8 +26,10 @@ public class LeetCodeQueue {
 			if (radiant.peek() == currentIndex) {
 				dire.poll();
 				radiant.offer(radiant.poll());
+				currentIndex = (currentIndex + 1) % length;
+				continue;
 			}
-			if (!dire.isEmpty() && dire.peek() == currentIndex) {
+			if (dire.peek() == currentIndex) {
 				radiant.poll();
 				dire.offer(dire.poll());
 			}
