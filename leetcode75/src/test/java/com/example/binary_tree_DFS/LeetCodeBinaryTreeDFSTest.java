@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static com.example.binary_tree_DFS.LeetCodeBinaryTreeDFS.TreeNode;
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,7 +43,6 @@ class LeetCodeBinaryTreeDFSTest {
 		assertTrue(leetCode.leafSimilar(firstTest1, firstTest2));
 		assertFalse(leetCode.leafSimilar(secondTest1, secondTest2));
 		assertTrue(leetCode.leafSimilar(thirdTest1, thirdTest2));
-
 	}
 
 	@Test
@@ -53,14 +53,14 @@ class LeetCodeBinaryTreeDFSTest {
 	}
 
 	public TreeNode createTreeNodeFromList(List<Integer> list) {
-		if (list == null || list.isEmpty()) {
+		if (Objects.isNull(list) || list.isEmpty()) {
 			return null;
 		}
 		return createTreeNodeHelper(list, 0);
 	}
 
 	private TreeNode createTreeNodeHelper(List<Integer> list, int index) {
-		if (index >= list.size() || list.get(index) == null) {
+		if (index >= list.size() || Objects.isNull(list.get(index))) {
 			return null;
 		}
 
