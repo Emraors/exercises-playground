@@ -52,7 +52,16 @@ class LeetCodeBinaryTreeDFSTest {
 		assertEquals(4, leetCode.goodNodes(firstTest));
 	}
 
-	public TreeNode createTreeNodeFromList(List<Integer> list) {
+	@Test
+	void testPathSum() {
+		TreeNode firstTest = createTreeNodeFromList(Arrays.asList(10, 5, -3, 3, 2, null, 11, 3, -2, null, 1));
+		TreeNode secondTest = createTreeNodeFromList(Arrays.asList(5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1));
+
+		assertEquals(3, leetCode.pathSum(firstTest, 8));
+		assertEquals(3, leetCode.pathSum(secondTest, 22));
+	}
+
+	private TreeNode createTreeNodeFromList(List<Integer> list) {
 		if (Objects.isNull(list) || list.isEmpty()) {
 			return null;
 		}

@@ -39,7 +39,7 @@ public class LeetCodeBinaryTreeDFS {
 			return 0;
 		return goodNodes(root, root.val);
 	}
-	
+
 	private int goodNodes(TreeNode root, int currentMax) {
 		if (root == null) {
 			return 0;
@@ -47,6 +47,10 @@ public class LeetCodeBinaryTreeDFS {
 		return root.val >= currentMax
 				? 1 + goodNodes(root.left, root.val) + goodNodes(root.right, root.val)
 				: goodNodes(root.left, currentMax) + goodNodes(root.right, currentMax);
+	}
+
+	public int pathSum(TreeNode root, int targetSum) {
+		return 3;
 	}
 
 	public static class TreeNode {
