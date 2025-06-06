@@ -1,8 +1,6 @@
 package com.example.binary_tree_DFS;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class LeetCodeBinaryTreeDFS {
 
@@ -50,7 +48,25 @@ public class LeetCodeBinaryTreeDFS {
 	}
 
 	public int pathSum(TreeNode root, int targetSum) {
-		return 3;
+		HashMap<Long, Integer> sumMap = new HashMap<>();
+		sumMap.put(0L, 1);
+		return pathsNumDFS(root, 0L, targetSum, sumMap);
+	}
+
+	private int pathsNumDFS(TreeNode root, long currentSum, int targetSum, Map<Long, Integer> sumMap) {
+		if (root == null) {
+			return 0;
+		}
+		currentSum = currentSum + root.val;
+		int numPaths = sumMap.getOrDefault(currentSum - targetSum, 0);
+
+		sumMap.put(currentSum, sumMap.getOrDefault(currentSum, 0) + 1);
+		numPaths = numPaths
+				+ pathsNumDFS(root.left, currentSum, targetSum, sumMap)
+				+ pathsNumDFS(root.right, currentSum, targetSum, sumMap);
+		sumMap.put(currentSum, sumMap.get(currentSum) - 1);
+
+		return numPaths;
 	}
 
 	public static class TreeNode {
