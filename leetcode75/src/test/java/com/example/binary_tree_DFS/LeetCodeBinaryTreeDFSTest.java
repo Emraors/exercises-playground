@@ -65,6 +65,18 @@ class LeetCodeBinaryTreeDFSTest {
 		assertEquals(0, leetCode.pathSum(thirdTest, 0));
 	}
 
+	@Test
+	void longestZigZag() {
+		TreeNode firstTest = createTreeNodeFromList(List.of(1));
+		TreeNode secondTest = createTreeNodeFromList(
+				Arrays.asList(1, null, 1, 1, 1, null, null, 1, 1, null, 1, null, null, null, 1));
+		TreeNode thirdTest = createTreeNodeFromList(Arrays.asList(1, 1, 1, null, 1, null, null, 1, 1, null, 1));
+
+		assertEquals(0, leetCode.longestZigZag(firstTest));
+		assertEquals(3, leetCode.longestZigZag(secondTest));
+		assertEquals(4, leetCode.longestZigZag(thirdTest));
+	}
+
 	private TreeNode createTreeNodeFromList(List<Integer> list) {
 		if (Objects.isNull(list) || list.isEmpty()) {
 			return null;

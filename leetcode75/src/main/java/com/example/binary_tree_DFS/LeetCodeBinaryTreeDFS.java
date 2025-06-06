@@ -69,6 +69,10 @@ public class LeetCodeBinaryTreeDFS {
 		return numPaths;
 	}
 
+	public int longestZigZag(TreeNode root) {
+		return 0;
+	}
+	
 	public static class TreeNode {
 		int val;
 		TreeNode left;
