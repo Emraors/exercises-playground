@@ -4,6 +4,8 @@ import java.util.*;
 
 public class LeetCodeBinaryTreeDFS {
 
+	private final Map<Key, Integer> memoizationMap = new HashMap<>();
+
 	public int maxDepth(TreeNode root) {
 		if (root == null)
 			return 0;
@@ -70,28 +72,73 @@ public class LeetCodeBinaryTreeDFS {
 	}
 
 	public int longestZigZag(TreeNode root) {
-		return 0;
+		return dfsZigZagMem(root);
 	}
 
-	public int maxZigZag(TreeNode node, Direction direction) {
+	private int dfsZigZagMem(TreeNode node) {
 		if (node == null)
 			return 0;
+
+		int startHere = Math.max(
+				maxZigZag(node, Direction.LEFT),
+				maxZigZag(node, Direction.RIGHT));
+
+		int bestLeft = longestZigZag(node.left);
+		int bestRight = longestZigZag(node.right);
+
+		return Math.max(startHere, Math.max(bestLeft, bestRight));
+	}
+
+	private int maxZigZag(TreeNode node, Direction direction) {
+		if (node == null)
+			return 0;
+
+		Key k = new Key(node, direction);
+		Integer info = memoizationMap.get(k);
+		if (info != null)
+			return info;
 
 		TreeNode nextNode = switch (direction) {
 			case RIGHT -> node.right;
 			case LEFT -> node.left;
 		};
 
-		return nextNode == null ? 0 : 1 + maxZigZag(nextNode, direction.opposite());
+		int lenght = nextNode == null ? 0 : 1 + maxZigZag(nextNode, direction.opposite());
+		memoizationMap.put(k, lenght);
+
+		return lenght;
 	}
 
-	private enum Direction {
+	private Info dfsZigZag(TreeNode node) {
+		if (node == null)
+			return new Info(0, 0, 0);
+
+		Info l = dfsZigZag(node.left);
+		Info r = dfsZigZag(node.right);
+
+		int goLeft = node.left == null ? 0 : 1 + l.right();
+		int goRight = node.right == null ? 0 : 1 + r.left();
+
+		int bestHere = Math.max(Math.max(l.best(), r.best()),
+				Math.max(goLeft, goRight));
+
+		return new Info(goLeft, goRight, bestHere);
+	}
+
+	public enum Direction {
 		RIGHT,
 		LEFT;
 
 		public Direction opposite() {
 			return this == LEFT ? RIGHT : LEFT;
 		}
+	}
+
+	record Key(TreeNode node, Direction dir) {
+	}
+
+	// Faster solution without using memoization
+	private record Info(int left, int right, int best) {
 	}
 
 	public static class TreeNode {
