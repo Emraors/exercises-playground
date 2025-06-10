@@ -2,9 +2,7 @@ package com.example.binary_tree_DFS;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static com.example.binary_tree_DFS.LeetCodeBinaryTreeDFS.TreeNode;
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,10 +13,16 @@ class LeetCodeBinaryTreeDFSTest {
 
 	@Test
 	void testCreateTreeNodeFromList() {
-		List<Integer> firstTest = Arrays.asList(3, 9, 20, null, null, 15, 7);
+		TreeNode firstTest = createTreeNodeFromList(Arrays.asList(3, 9, 20, null, null, 15, 7));
+		TreeNode secondTest = createTreeNodeFromList(
+				Arrays.asList(1, null, 1, 1, 1, null, null, 1, 1, null, 1, null, null, null, 1));
 
 		assertEquals(new TreeNode(3, new TreeNode(9), new TreeNode(20, new TreeNode(15), new TreeNode(7))),
-				createTreeNodeFromList(firstTest));
+				firstTest);
+		assertEquals(firstTest,
+				createTreeNodeFromList(fromTreeNodeToList(firstTest)));
+		assertEquals(secondTest,
+				createTreeNodeFromList(fromTreeNodeToList(secondTest)));
 	}
 
 	@Test
@@ -75,24 +79,67 @@ class LeetCodeBinaryTreeDFSTest {
 		assertEquals(0, leetCode.longestZigZag(firstTest));
 		assertEquals(3, leetCode.longestZigZag(secondTest));
 		assertEquals(4, leetCode.longestZigZag(thirdTest));
+
 	}
 
 	private TreeNode createTreeNodeFromList(List<Integer> list) {
-		if (Objects.isNull(list) || list.isEmpty()) {
+		if (Objects.isNull(list) || list.isEmpty() || list.getFirst() == null) {
 			return null;
 		}
-		return createTreeNodeHelper(list, 0);
+		TreeNode root = new TreeNode(list.getFirst());
+		Queue<TreeNode> nodeQueue = new LinkedList<>();
+		nodeQueue.offer(root);
+
+		int i = 1;
+		while (!nodeQueue.isEmpty() && i < list.size()) {
+			TreeNode parent = nodeQueue.poll();
+
+			if (i < list.size()) {
+				Integer leftVal = list.get(i++);
+				if (leftVal != null) {
+					parent.left = new TreeNode(leftVal);
+					nodeQueue.offer(parent.left);
+				}
+			}
+
+			if (i < list.size()) {
+				Integer rightVal = list.get(i++);
+				if (rightVal != null) {
+					parent.right = new TreeNode(rightVal);
+					nodeQueue.offer(parent.right);
+				}
+			}
+		}
+		return root;
 	}
 
-	private TreeNode createTreeNodeHelper(List<Integer> list, int index) {
-		if (index >= list.size() || Objects.isNull(list.get(index))) {
-			return null;
+	private List<Integer> fromTreeNodeToList(TreeNode root) {
+		List<Integer> list = new ArrayList<>();
+
+		if (Objects.isNull(root)) {
+			return list;
 		}
 
-		TreeNode node = new TreeNode(list.get(index));
-		node.left = createTreeNodeHelper(list, 2 * index + 1);
-		node.right = createTreeNodeHelper(list, 2 * index + 2);
+		Queue<TreeNode> nodeQueue = new LinkedList<>();
+		nodeQueue.offer(root);
 
-		return node;
+		while (!nodeQueue.isEmpty()) {
+			TreeNode node = nodeQueue.poll();
+
+			if (node == null) {
+				list.add(null);
+			} else {
+				list.add(node.val);
+				nodeQueue.offer(node.left);
+				nodeQueue.offer(node.right);
+			}
+		}
+
+		for (int k = list.size() - 1; k >= 0 && list.get(k) == null; k--) {
+			list.remove(k);
+		}
+
+		return list;
+
 	}
 }
