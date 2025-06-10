@@ -72,14 +72,32 @@ public class LeetCodeBinaryTreeDFS {
 	public int longestZigZag(TreeNode root) {
 		return 0;
 	}
-	
+
+	public int maxZigZag(TreeNode node, Direction direction) {
+		if (node == null)
+			return 0;
+
+		TreeNode nextNode = switch (direction) {
+			case RIGHT -> node.right;
+			case LEFT -> node.left;
+		};
+
+		return nextNode == null ? 0 : 1 + maxZigZag(nextNode, direction.opposite());
+	}
+
+	private enum Direction {
+		RIGHT,
+		LEFT;
+
+		public Direction opposite() {
+			return this == LEFT ? RIGHT : LEFT;
+		}
+	}
+
 	public static class TreeNode {
 		int val;
 		TreeNode left;
 		TreeNode right;
-
-		TreeNode() {
-		}
 
 		TreeNode(int val) {
 			this.val = val;
@@ -98,6 +116,10 @@ public class LeetCodeBinaryTreeDFS {
 					", left=" + left +
 					", right=" + right +
 					'}';
+		}
+
+		boolean isLeaf() {
+			return right == null && left == null;
 		}
 
 		@Override
