@@ -70,7 +70,7 @@ class LeetCodeBinaryTreeDFSTest {
 	}
 
 	@Test
-	void longestZigZag() {
+	void longestZigZagTest() {
 		TreeNode firstTest = createTreeNodeFromList(List.of(1));
 		TreeNode secondTest = createTreeNodeFromList(
 				Arrays.asList(1, null, 1, 1, 1, null, null, 1, 1, null, 1, null, null, null, 1));
@@ -79,7 +79,16 @@ class LeetCodeBinaryTreeDFSTest {
 		assertEquals(0, leetCode.longestZigZag(firstTest));
 		assertEquals(3, leetCode.longestZigZag(secondTest));
 		assertEquals(4, leetCode.longestZigZag(thirdTest));
+	}
 
+	@Test
+	void lowestCommonAncestorTest() {
+		TreeNode rootFist = createTreeNodeFromList(List.of(3, 5, 1, 6, 2, 0, 8, null, null, 7, 4));
+		TreeNode pFirst = createTreeNodeFromList(List.of(5, 1, 6, 2, 0, 8, null, null, 7, 4));
+		TreeNode qFirst = createTreeNodeFromList(List.of(1, 6, 2, 0, 8, null, null, 7, 4));
+
+		assertEquals(createTreeNodeFromList(List.of(3, 5, 1, 6, 2, 0, 8, null, null, 7, 4)),
+				leetCode.lowestCommonAncestor(rootFist, pFirst, qFirst));
 	}
 
 	private TreeNode createTreeNodeFromList(List<Integer> list) {
@@ -140,6 +149,5 @@ class LeetCodeBinaryTreeDFSTest {
 		}
 
 		return list;
-
 	}
 }

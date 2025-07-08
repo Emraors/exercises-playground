@@ -103,12 +103,13 @@ public class LeetCodeBinaryTreeDFS {
 			case LEFT -> node.left;
 		};
 
-		int lenght = nextNode == null ? 0 : 1 + maxZigZag(nextNode, direction.opposite());
-		memoizationMap.put(k, lenght);
+		int length = nextNode == null ? 0 : 1 + maxZigZag(nextNode, direction.opposite());
+		memoizationMap.put(k, length);
 
-		return lenght;
+		return length;
 	}
 
+	// Faster solution without using memoization
 	private Info dfsZigZag(TreeNode node) {
 		if (node == null)
 			return new Info(0, 0, 0);
@@ -125,6 +126,13 @@ public class LeetCodeBinaryTreeDFS {
 		return new Info(goLeft, goRight, bestHere);
 	}
 
+	public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+		if (root == null || p == null || q == null)
+			return null;
+
+		return root;
+	}
+
 	public enum Direction {
 		RIGHT,
 		LEFT;
@@ -134,10 +142,9 @@ public class LeetCodeBinaryTreeDFS {
 		}
 	}
 
-	record Key(TreeNode node, Direction dir) {
+	private record Key(TreeNode node, Direction dir) {
 	}
 
-	// Faster solution without using memoization
 	private record Info(int left, int right, int best) {
 	}
 
