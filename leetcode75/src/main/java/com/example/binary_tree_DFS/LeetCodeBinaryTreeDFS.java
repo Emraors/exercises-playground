@@ -120,17 +120,28 @@ public class LeetCodeBinaryTreeDFS {
 		int goLeft = node.left == null ? 0 : 1 + l.right();
 		int goRight = node.right == null ? 0 : 1 + r.left();
 
-		int bestHere = Math.max(Math.max(l.best(), r.best()),
-				Math.max(goLeft, goRight));
+		int bestHere = Math.max(Math.max(l.best(), r.best()), Math.max(goLeft, goRight));
 
 		return new Info(goLeft, goRight, bestHere);
 	}
 
 	public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-		if (root == null || p == null || q == null)
+		if (root == null)
 			return null;
 
-		return root;
+		if (root.equals(p) || root.equals(q))
+			return root;
+
+		TreeNode left = lowestCommonAncestor(root.left, p, q);
+		TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+		boolean isLeftNull = left == null;
+		boolean isRightNull = right == null;
+
+		if (!isLeftNull && !isRightNull)
+			return root;
+
+		return isLeftNull ? right : left;
 	}
 
 	public enum Direction {

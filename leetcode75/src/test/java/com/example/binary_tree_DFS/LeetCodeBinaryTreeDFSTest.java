@@ -83,12 +83,13 @@ class LeetCodeBinaryTreeDFSTest {
 
 	@Test
 	void lowestCommonAncestorTest() {
-		TreeNode rootFist = createTreeNodeFromList(List.of(3, 5, 1, 6, 2, 0, 8, null, null, 7, 4));
-		TreeNode pFirst = createTreeNodeFromList(List.of(5, 1, 6, 2, 0, 8, null, null, 7, 4));
-		TreeNode qFirst = createTreeNodeFromList(List.of(1, 6, 2, 0, 8, null, null, 7, 4));
+		TreeNode rootFist = createTreeNodeFromList(Arrays.asList(3, 5, 1, 6, 2, 0, 8, null, null, 7, 4));
+		TreeNode pFirst = createTreeNodeFromList(Arrays.asList(5, 6, 2, null, null, 7, 4));
+		TreeNode qFirst = createTreeNodeFromList(Arrays.asList(1, 0, 8));
 
-		assertEquals(createTreeNodeFromList(List.of(3, 5, 1, 6, 2, 0, 8, null, null, 7, 4)),
+		assertEquals(createTreeNodeFromList(Arrays.asList(3, 5, 1, 6, 2, 0, 8, null, null, 7, 4)),
 				leetCode.lowestCommonAncestor(rootFist, pFirst, qFirst));
+
 	}
 
 	private TreeNode createTreeNodeFromList(List<Integer> list) {
