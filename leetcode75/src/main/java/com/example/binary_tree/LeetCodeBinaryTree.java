@@ -1,9 +1,9 @@
-package com.example.binary_tree_DFS;
+package com.example.binary_tree;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class LeetCodeBinaryTreeDFS {
+public class LeetCodeBinaryTree {
 
 	private final Map<Key, Integer> memoizationMap = new HashMap<>();
 

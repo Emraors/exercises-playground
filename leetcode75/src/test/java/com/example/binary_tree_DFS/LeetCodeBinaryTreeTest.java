@@ -1,15 +1,16 @@
 package com.example.binary_tree_DFS;
 
+import com.example.binary_tree.LeetCodeBinaryTree;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static com.example.binary_tree_DFS.LeetCodeBinaryTreeDFS.TreeNode;
+import static com.example.binary_tree.LeetCodeBinaryTree.TreeNode;
 import static org.junit.jupiter.api.Assertions.*;
 
-class LeetCodeBinaryTreeDFSTest {
+class LeetCodeBinaryTreeTest {
 
-	private final LeetCodeBinaryTreeDFS leetCode = new LeetCodeBinaryTreeDFS();
+	private final LeetCodeBinaryTree leetCode = new LeetCodeBinaryTree();
 
 	@Test
 	void testCreateTreeNodeFromList() {
