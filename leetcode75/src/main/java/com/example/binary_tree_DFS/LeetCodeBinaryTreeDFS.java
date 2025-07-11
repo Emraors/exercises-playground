@@ -1,6 +1,7 @@
 package com.example.binary_tree_DFS;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class LeetCodeBinaryTreeDFS {
 
@@ -142,6 +143,134 @@ public class LeetCodeBinaryTreeDFS {
 			return root;
 
 		return isLeftNull ? right : left;
+	}
+
+	public List<Integer> rightSideView(TreeNode root) {
+		List<Integer> levels = new LinkedList<>();
+
+		if (root == null)
+			return levels;
+
+		record Pair(TreeNode node, int level) {
+		}
+		int currentLevel = 0;
+
+		Queue<Pair> q = new LinkedList<>();
+		q.offer(new Pair(root, 0));
+		while (!q.isEmpty()) {
+			Pair p = q.poll();
+			TreeNode node = p.node();
+			int lvl = p.level();
+			if (lvl == currentLevel) {
+				levels.add(node.val);
+				currentLevel++;
+			}
+			if (node.right != null)
+				q.offer(new Pair(node.right, lvl + 1));
+			if (node.left != null)
+				q.offer(new Pair(node.left, lvl + 1));
+		}
+		return levels;
+	}
+
+	// This is the first solution I came up with. I wanted to write a more general method to group values by levels, but in this way I need to traverse the resulting map another time to extract the first value
+	public List<Integer> rightSideViewWithLevels(TreeNode root) {
+		return groupByLevels(root).values().stream()
+				.map(List::getFirst)
+				.collect(Collectors.toList());
+	}
+
+	private TreeMap<Integer, List<Integer>> groupByLevels(TreeNode root) {
+		TreeMap<Integer, List<Integer>> levels = new TreeMap<>();
+		if (root == null)
+			return levels;
+
+		record Pair(TreeNode node, int level) {
+		}
+
+		Queue<Pair> q = new LinkedList<>();
+		q.offer(new Pair(root, 0));
+
+		while (!q.isEmpty()) {
+			Pair p = q.poll();
+			TreeNode node = p.node();
+			int lvl = p.level();
+
+			levels.computeIfAbsent(lvl, k -> new ArrayList<>()).add(node.val);
+
+			if (node.right != null)
+				q.offer(new Pair(node.right, lvl + 1));
+			if (node.left != null)
+				q.offer(new Pair(node.left, lvl + 1));
+		}
+		return levels;
+	}
+
+	private TreeMap<Integer, Integer> getLevelSums(TreeNode root) {
+		TreeMap<Integer, Integer> sums = new TreeMap<>();
+		if (root == null)
+			return sums;
+
+		record Pair(TreeNode node, int level) {
+		}
+
+		Queue<Pair> q = new LinkedList<>();
+		q.offer(new Pair(root, 1));
+
+		while (!q.isEmpty()) {
+			Pair p = q.poll();
+			TreeNode node = p.node();
+			int lvl = p.level();
+
+			sums.merge(lvl, node.val, Integer::sum);
+
+			if (node.right != null)
+				q.offer(new Pair(node.right, lvl + 1));
+			if (node.left != null)
+				q.offer(new Pair(node.left, lvl + 1));
+		}
+		return sums;
+	}
+
+	public int maxLevelSum(TreeNode root) {
+		if (root == null)
+			return 0;
+
+		Queue<TreeNode> q = new ArrayDeque<>();
+		q.offer(root);
+
+		int level = 1;
+		int bestLevel = 1;
+		int bestSum = Integer.MIN_VALUE;
+
+		while (!q.isEmpty()) {
+			int levelSize = q.size();
+			int curSum = 0;
+
+			for (int i = 0; i < levelSize; i++) {
+				TreeNode n = q.poll();
+				curSum += n.val;
+
+				if (n.left != null)
+					q.offer(n.left);
+				if (n.right != null)
+					q.offer(n.right);
+			}
+
+			if (curSum > bestSum) {
+				bestSum = curSum;
+				bestLevel = level;
+			}
+
+			level++;
+		}
+		return bestLevel;
+	}
+
+	// This is the first solution I came up with, but it is slower than the one above
+	public int maxLevelSumWithLevels(TreeNode root) {
+		return getLevelSums(root).entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey)
+				.orElse(0);
 	}
 
 	public enum Direction {

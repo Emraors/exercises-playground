@@ -89,6 +89,31 @@ class LeetCodeBinaryTreeDFSTest {
 
 		assertEquals(createTreeNodeFromList(Arrays.asList(3, 5, 1, 6, 2, 0, 8, null, null, 7, 4)),
 				leetCode.lowestCommonAncestor(rootFist, pFirst, qFirst));
+	}
+
+	@Test
+	void rightSideViewTest() {
+		TreeNode firstTest = createTreeNodeFromList(Arrays.asList(1, 2, 3, null, 5, null, 4));
+		TreeNode secondTest = createTreeNodeFromList(Arrays.asList(1, 2, 3, 4, null, null, null, 5));
+		TreeNode thirdTest = createTreeNodeFromList(new ArrayList<>());
+
+		assertEquals(Arrays.asList(1, 3, 4), leetCode.rightSideView(firstTest));
+		assertEquals(Arrays.asList(1, 3, 4, 5), leetCode.rightSideView(secondTest));
+		assertEquals(new ArrayList<>(), leetCode.rightSideView(thirdTest));
+	}
+
+	@Test
+	void maxLevelSumTest() {
+		TreeNode firstTest = createTreeNodeFromList(Arrays.asList(1, 7, 0, 7, -8, null, null));
+		TreeNode secondTest = createTreeNodeFromList(
+				Arrays.asList(989, null, 10250, 98693, -89388, null, null, null, -32127));
+		TreeNode thirdTest = createTreeNodeFromList(Arrays.asList(-100, -200, -300, -20, -5, -10, null));
+		TreeNode fourthTest = createTreeNodeFromList(Arrays.asList(1, 1, 0, 7, -8, -7, 9));
+
+		assertEquals(1, leetCode.maxLevelSum(fourthTest));
+		assertEquals(2, leetCode.maxLevelSum(firstTest));
+		assertEquals(2, leetCode.maxLevelSum(secondTest));
+		assertEquals(3, leetCode.maxLevelSum(thirdTest));
 
 	}
 
