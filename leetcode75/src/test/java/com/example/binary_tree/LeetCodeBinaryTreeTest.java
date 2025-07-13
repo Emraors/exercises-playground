@@ -1,6 +1,5 @@
-package com.example.binary_tree_DFS;
+package com.example.binary_tree;
 
-import com.example.binary_tree.LeetCodeBinaryTree;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -115,7 +114,39 @@ class LeetCodeBinaryTreeTest {
 		assertEquals(2, leetCode.maxLevelSum(firstTest));
 		assertEquals(2, leetCode.maxLevelSum(secondTest));
 		assertEquals(3, leetCode.maxLevelSum(thirdTest));
+	}
 
+	@Test
+	void searchBSTTest() {
+		TreeNode firstTest = createTreeNodeFromList(Arrays.asList(4, 2, 7, 1, 3));
+		TreeNode firstTestResult = createTreeNodeFromList(Arrays.asList(2, 1, 3));
+		TreeNode secondTest = createTreeNodeFromList(Arrays.asList(4, 2, 7, 1, 3));
+		TreeNode secondTestResult = createTreeNodeFromList(new ArrayList<>());
+
+		assertEquals(firstTestResult, leetCode.searchBST(firstTest, 2));
+		assertEquals(secondTestResult, leetCode.searchBST(secondTest, 5));
+	}
+
+	@Test
+	void deleteNodeTest() {
+		TreeNode firstTest = createTreeNodeFromList(Arrays.asList(5, 3, 6, 2, 4, null, 7));
+		TreeNode firstTestResult = createTreeNodeFromList(Arrays.asList(5, 4, 6, 2, null, null, 7));
+		TreeNode secondTest = createTreeNodeFromList(Arrays.asList(5, 3, 6, 2, 4, null, 7));
+		TreeNode secondTestResult = createTreeNodeFromList(Arrays.asList(5, 3, 6, 2, 4, null, 7));
+
+		assertEquals(firstTestResult, leetCode.deleteNode(firstTest, 3));
+		assertEquals(secondTestResult, leetCode.deleteNode(secondTest, 0));
+	}
+
+	@Test
+	void insertIntoBSTTest() {
+		TreeNode firstTest = createTreeNodeFromList(Arrays.asList(4, 2, 7, 1, 3));
+		TreeNode firstTestResult = createTreeNodeFromList(Arrays.asList(4, 2, 7, 1, 3, 5));
+		TreeNode secondTest = createTreeNodeFromList(Arrays.asList(40, 20, 60, 10, 30, 50, 70));
+		TreeNode secondTestResult = createTreeNodeFromList(Arrays.asList(40, 20, 60, 10, 30, 50, 70, null, null, 25));
+
+		assertEquals(firstTestResult, leetCode.insertIntoBST(firstTest, 5));
+		assertEquals(secondTestResult, leetCode.insertIntoBST(secondTest, 25));
 	}
 
 	private TreeNode createTreeNodeFromList(List<Integer> list) {
@@ -176,5 +207,25 @@ class LeetCodeBinaryTreeTest {
 		}
 
 		return list;
+	}
+
+	public List<Integer> preorder(TreeNode root) {
+		List<Integer> result = new ArrayList<>();
+		if (Objects.isNull(root))
+			return result;
+
+		Deque<TreeNode> stack = new ArrayDeque<>();
+		stack.push(root);
+
+		while (!stack.isEmpty()) {
+			TreeNode curr = stack.pop();
+			result.add(curr.val);
+
+			if (curr.right != null)
+				stack.push(curr.right);
+			if (curr.left != null)
+				stack.push(curr.left);
+		}
+		return result;
 	}
 }

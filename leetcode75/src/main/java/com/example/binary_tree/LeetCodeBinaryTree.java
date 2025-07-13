@@ -273,6 +273,76 @@ public class LeetCodeBinaryTree {
 				.orElse(0);
 	}
 
+	public TreeNode searchBST(TreeNode root, int val) {
+		if (root == null)
+			return null;
+		if (root.val == val)
+			return root;
+		else if (root.val > val)
+			return searchBST(root.left, val);
+		else
+			return searchBST(root.right, val);
+	}
+
+	public TreeNode insertIntoBST(TreeNode root, int val) {
+		if (root == null) {
+			return new TreeNode(val);
+		}
+
+		if (root.val > val) {
+			root.left = insertIntoBST(root.left, val);
+		} else if (root.val < val) {
+			root.right = insertIntoBST(root.right, val);
+		}
+
+		return root;
+	}
+
+	public TreeNode deleteNode(TreeNode root, int key) {
+		if (root == null) {
+			return null;
+		}
+
+		if (root.val > key) {
+			root.left = deleteNode(root.left, key);
+		} else if (root.val < key) {
+			root.right = deleteNode(root.right, key);
+		} else {
+			TreeNode leftNode = root.left;
+			TreeNode rightNode = root.right;
+
+			if (leftNode == null) {
+				return rightNode;
+			}
+			if (rightNode == null) {
+				return leftNode;
+			}
+			TreeNode successor = getInOrderSuccessor(root);
+			root.val = successor.val;
+			root.right = deleteNode(rightNode, successor.val);
+		}
+		return root;
+	}
+
+	public TreeNode getInOrderSuccessor(TreeNode node) {
+		node = node.right;
+		while (node != null && node.left != null) {
+			node = node.left;
+		}
+		return node;
+	}
+
+	public TreeNode getLeftMostLeaf(TreeNode node) {
+		if (node.left == null)
+			return node;
+		else
+			return getLeftMostLeaf(node.left);
+	}
+
+	public TreeNode addNode(TreeNode node, TreeNode nodeToAdd) {
+		return null;
+	}
+
 	public enum Direction {
 		RIGHT,
 		LEFT;
