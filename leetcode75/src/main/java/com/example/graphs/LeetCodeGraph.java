@@ -44,4 +44,8 @@ public class LeetCodeGraph {
 		}
 	}
 
+	public int findCircleNum(int[][] isConnected) {
+		return 0;
+	}
+
 }
