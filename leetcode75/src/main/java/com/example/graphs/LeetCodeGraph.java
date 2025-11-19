@@ -35,17 +35,66 @@ public class LeetCodeGraph {
 		return result;
 	}
 
-	private void dfs(List<List<Integer>> rooms, int roomKey, boolean[] visited) {
-		visited[roomKey] = true;
-		for (Integer adj : rooms.get(roomKey)) {
+	private void dfs(List<List<Integer>> rooms, int index, boolean[] visited) {
+		visited[index] = true;
+		for (Integer adj : rooms.get(index)) {
 			if (!visited[adj]) {
 				dfs(rooms, adj, visited);
 			}
 		}
 	}
 
-	public int findCircleNum(int[][] isConnected) {
-		return 0;
+	private void dfsMatrixRecursive(int[][] adjMatrix, int vertex, boolean[] visited) {
+		visited[vertex] = true;
+		for (int i = 0; i < adjMatrix[vertex].length; i++) {
+			if (adjMatrix[vertex][i] == 1 && !visited[i]) {
+				dfsMatrixRecursive(adjMatrix, i, visited);
+			}
+		}
 	}
 
+	private void dfsMatrixIterative(int[][] adjMatrix, int vertex, boolean[] visited) {
+		Deque<Integer> stack = new ArrayDeque<>();
+		stack.push(vertex);
+		visited[vertex] = true;
+		while (!stack.isEmpty()) {
+			int v = stack.pop();
+			for (int j = 0; j < adjMatrix[v].length; j++) {
+				if (adjMatrix[v][j] == 1 && !visited[j]) {
+					visited[j] = true;
+					stack.push(j);
+				}
+			}
+		}
+	}
+
+	private void bfsMatrix(int[][] adjMatrix, int start, boolean[] visited) {
+		Queue<Integer> queue = new ArrayDeque<>();
+		queue.add(start);
+		visited[start] = true;
+		while (!queue.isEmpty()) {
+			int v = queue.poll();
+			for (int j = 0; j < adjMatrix[v].length; j++) {
+				if (adjMatrix[v][j] == 1 && !visited[j]) {
+					visited[j] = true;
+					queue.add(j);
+				}
+			}
+		}
+	}
+
+	public int findCircleNum(int[][] isConnected) {
+		int n = isConnected.length;
+		if (n == 0)
+			return 0;
+		boolean[] visited = new boolean[n];
+		int components = 0;
+		for (int i = 0; i < n; i++) {
+			if (!visited[i]) {
+				dfsMatrixRecursive(isConnected, i, visited);
+				components++;
+			}
+		}
+		return components;
+	}
 }

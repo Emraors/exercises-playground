@@ -42,9 +42,14 @@ class LeetCodeGraphTest {
 	void findCircleNumTest() {
 		int[][] firstTest = parseMatrixAsArray("[[1,1,0],[1,1,0],[0,0,1]]");
 		int[][] secondTest = parseMatrixAsArray("[[1,0,0],[0,1,0],[0,0,1]]");
+		int[][] thirdTest = parseMatrixAsArray("[]");
+		int[][] fourthTest = parseMatrixAsArray(
+				"[[1,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,1,0,1,0,0,0,0,0,0,0,0,0,1,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0],[0,1,0,1,0,0,0,1,0,0,0,1,0,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],[0,0,0,1,0,0,0,1,1,0,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],[0,0,0,1,0,0,0,0,0,0,0,1,0,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,1,0,0],[0,1,0,0,0,0,0,0,0,0,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]]");
 
 		assertEquals(2, leetCode.findCircleNum(firstTest));
 		assertEquals(3, leetCode.findCircleNum(secondTest));
+		assertEquals(0, leetCode.findCircleNum(thirdTest));
+		assertEquals(8, leetCode.findCircleNum(fourthTest));
 	}
 
 	private int[][] parseMatrixAsArray(String matrixAsString) {
