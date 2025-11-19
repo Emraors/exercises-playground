@@ -52,6 +52,17 @@ class LeetCodeGraphTest {
 		assertEquals(8, leetCode.findCircleNum(fourthTest));
 	}
 
+	@Test
+	void minReorderTest() {
+		int[][] firstTest = parseMatrixAsArray("[[0,1],[1,3],[2,3],[4,0],[4,5]]");
+		int[][] secondTest = parseMatrixAsArray("[[1,0],[1,2],[3,2],[3,4]]");
+		int[][] thirdTest = parseMatrixAsArray("[[1,0],[2,0]]");
+
+		assertEquals(3, leetCode.minReorder(6, firstTest));
+		assertEquals(2, leetCode.minReorder(5, secondTest));
+		assertEquals(0, leetCode.minReorder(3, thirdTest));
+	}
+
 	private int[][] parseMatrixAsArray(String matrixAsString) {
 		return fromListOfListToArrayOfArray(parseMatrixAsList(matrixAsString));
 	}

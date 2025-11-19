@@ -97,4 +97,8 @@ public class LeetCodeGraph {
 		}
 		return components;
 	}
+
+	public int minReorder(int n, int[][] connections) {
+		return 0;
+	}
 }
