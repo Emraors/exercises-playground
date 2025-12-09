@@ -75,7 +75,7 @@ class LeetCodeGraphTest {
 		List<List<String>> secondEquations = parseStringMatrixAsList("[[\"a\",\"b\"],[\"b\",\"c\"],[\"bc\",\"cd\"]]",
 				this::parseListSting);
 		List<List<String>> secondQueries = parseStringMatrixAsList(
-				"[[\"a\",\"c\"],[\"c\",\"b\"],[\"bc\",\"cd\"],[\"cd\",\"bc\"]][[\"a\",\"c\"],[\"c\",\"b\"],[\"bc\",\"cd\"],[\"cd\",\"bc\"]]",
+				"[[\"a\",\"c\"],[\"c\",\"b\"],[\"bc\",\"cd\"],[\"cd\",\"bc\"]]",
 				this::parseListSting);
 		double[] secondValues = new double[] { 1.5, 2.5, 5.0 };
 

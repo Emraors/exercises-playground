@@ -98,21 +98,13 @@ public class LeetCodeGraph {
 		return components;
 	}
 
-	/*public Map<Integer, List<Integer>> fromEdgeListToAdjList(int[][] edgeList) {
-		Map<Integer, List<Integer>> adjList = new HashMap<>();
-		for (int[] edge : edgeList) {
-			adjList.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
-			adjList.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
-		}
-		return adjList;
-	}*/
-
 	public int minReorder(int n, int[][] connections) {
 		if (n == 0)
 			return 0;
 
 		Map<Integer, List<int[]>> adjList = fromEdgeListToAdjList(n, connections);
 		boolean[] visited = new boolean[n];
+
 		return dfsAdjList(adjList, 0, visited);
 	}
 
@@ -143,6 +135,53 @@ public class LeetCodeGraph {
 	}
 
 	public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
-		return new double[] {};
+		Map<String, List<WeightedNode>> adjList = fromEquationsToAdjList(equations, values);
+		double[] results = new double[queries.size()];
+		int i = 0;
+		for (List<String> query : queries) {
+			String start = query.get(0);
+			String end = query.get(1);
+
+			if (!adjList.containsKey(start) || !adjList.containsKey(end)) {
+				results[i++] = -1.0;
+				continue;
+			}
+			results[i++] = findProduct(adjList, start, end, 1.0, new HashMap<>());
+		}
+		return results;
 	}
+
+	private double findProduct(Map<String, List<WeightedNode>> adjList, String current, String endNode,
+			double partialResult, Map<String, Boolean> visited) {
+		if (current.equals(endNode))
+			return partialResult;
+
+		visited.put(current, true);
+
+		for (WeightedNode next : adjList.getOrDefault(current, List.of())) {
+			if (!visited.getOrDefault(next.nodeName(), false)) {
+				double result = findProduct(adjList, next.nodeName(), endNode, partialResult * next.weight(), visited);
+				if (result != -1.0) {
+					return result;
+				}
+			}
+		}
+		return -1.0;
+	}
+
+	private Map<String, List<WeightedNode>> fromEquationsToAdjList(List<List<String>> equations, double[] values) {
+		Map<String, List<WeightedNode>> adjList = new HashMap<>();
+		for (int i = 0; i < values.length; i++) {
+			List<String> eq = equations.get(i);
+			String dividend = eq.getFirst(), divisor = eq.get(1);
+
+			adjList.computeIfAbsent(dividend, k -> new ArrayList<>()).add(new WeightedNode(divisor, values[i]));
+			adjList.computeIfAbsent(divisor, k -> new ArrayList<>()).add(new WeightedNode(dividend, 1 / values[i]));
+		}
+		return adjList;
+	}
+
+	private record WeightedNode(String nodeName, double weight) {
+	}
+
 }
