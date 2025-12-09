@@ -98,7 +98,51 @@ public class LeetCodeGraph {
 		return components;
 	}
 
+	/*public Map<Integer, List<Integer>> fromEdgeListToAdjList(int[][] edgeList) {
+		Map<Integer, List<Integer>> adjList = new HashMap<>();
+		for (int[] edge : edgeList) {
+			adjList.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
+			adjList.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+		}
+		return adjList;
+	}*/
+
 	public int minReorder(int n, int[][] connections) {
-		return 0;
+		if (n == 0)
+			return 0;
+
+		Map<Integer, List<int[]>> adjList = fromEdgeListToAdjList(n, connections);
+		boolean[] visited = new boolean[n];
+		return dfsAdjList(adjList, 0, visited);
+	}
+
+	private int dfsAdjList(Map<Integer, List<int[]>> adjList, Integer node, boolean[] visited) {
+		visited[node] = true;
+		int count = 0;
+		for (int[] neighbor : adjList.get(node)) {
+			int next = neighbor[0], needsReversal = neighbor[1];
+			if (!visited[next]) {
+				count += needsReversal;
+				count += dfsAdjList(adjList, next, visited);
+			}
+		}
+		return count;
+	}
+
+	private Map<Integer, List<int[]>> fromEdgeListToAdjList(int n, int[][] connections) {
+		Map<Integer, List<int[]>> graph = new HashMap<>();
+		for (int i = 0; i < n; i++)
+			graph.put(i, new ArrayList<>());
+
+		for (int[] conn : connections) {
+			int from = conn[0], to = conn[1];
+			graph.get(from).add(new int[] { to, 1 });
+			graph.get(to).add(new int[] { from, 0 });
+		}
+		return graph;
+	}
+
+	public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+		return new double[] {};
 	}
 }
