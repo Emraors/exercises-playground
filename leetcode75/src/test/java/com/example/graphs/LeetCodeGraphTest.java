@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -23,8 +24,9 @@ class LeetCodeGraphTest {
 		String firstTest = "[[1,1,0],[1,1,0],[0,0,1]]";
 		String secondTest = "[]";
 
-		assertEquals(List.of(List.of(1, 1, 0), List.of(1, 1, 0), List.of(0, 0, 1)), parseMatrixAsList(firstTest));
-		assertEquals(List.of(), parseMatrixAsList(secondTest));
+		assertEquals(List.of(List.of(1, 1, 0), List.of(1, 1, 0), List.of(0, 0, 1)),
+				parseStringMatrixAsList(firstTest, this::parseListInt));
+		assertEquals(List.of(), parseStringMatrixAsList(secondTest, this::parseListInt));
 	}
 
 	@Test
@@ -65,19 +67,21 @@ class LeetCodeGraphTest {
 
 	@Test
 	void calcEquationTest() {
-		List<List<String>> firstEquations = parseMatrixAsStringList("[['a','b'],['b','c']");
-		List<List<String>> firstQueries = parseMatrixAsStringList(
-				"[[\"a\",\"c\"],[\"b\",\"a\"],[\"a\",\"e\"],[\"a\",\"a\"],[\"x\",\"x\"]]");
+		List<List<String>> firstEquations = parseStringMatrixAsList("[['a','b'],['b','c']", this::parseListSting);
+		List<List<String>> firstQueries = parseStringMatrixAsList(
+				"[[\"a\",\"c\"],[\"b\",\"a\"],[\"a\",\"e\"],[\"a\",\"a\"],[\"x\",\"x\"]]", this::parseListSting);
 		double[] firstValues = new double[] { 2.0, 3.0 };
 
-		List<List<String>> secondEquations = parseMatrixAsStringList("[[\"a\",\"b\"],[\"b\",\"c\"],[\"bc\",\"cd\"]]");
-		List<List<String>> secondQueries = parseMatrixAsStringList(
-				"[[\"a\",\"c\"],[\"c\",\"b\"],[\"bc\",\"cd\"],[\"cd\",\"bc\"]][[\"a\",\"c\"],[\"c\",\"b\"],[\"bc\",\"cd\"],[\"cd\",\"bc\"]]");
+		List<List<String>> secondEquations = parseStringMatrixAsList("[[\"a\",\"b\"],[\"b\",\"c\"],[\"bc\",\"cd\"]]",
+				this::parseListSting);
+		List<List<String>> secondQueries = parseStringMatrixAsList(
+				"[[\"a\",\"c\"],[\"c\",\"b\"],[\"bc\",\"cd\"],[\"cd\",\"bc\"]][[\"a\",\"c\"],[\"c\",\"b\"],[\"bc\",\"cd\"],[\"cd\",\"bc\"]]",
+				this::parseListSting);
 		double[] secondValues = new double[] { 1.5, 2.5, 5.0 };
 
-		List<List<String>> thirdEquations = parseMatrixAsStringList("[[\"a\",\"b\"]]");
-		List<List<String>> thirdQueries = parseMatrixAsStringList(
-				"[[\"a\",\"b\"],[\"b\",\"a\"],[\"a\",\"c\"],[\"x\",\"y\"]]");
+		List<List<String>> thirdEquations = parseStringMatrixAsList("[[\"a\",\"b\"]]", this::parseListSting);
+		List<List<String>> thirdQueries = parseStringMatrixAsList(
+				"[[\"a\",\"b\"],[\"b\",\"a\"],[\"a\",\"c\"],[\"x\",\"y\"]]", this::parseListSting);
 		double[] thirdValues = new double[] { 0.5 };
 
 		assertArrayEquals(new double[] { 6.00000, 0.50000, -1.00000, 1.00000, -1.00000 },
@@ -89,7 +93,7 @@ class LeetCodeGraphTest {
 	}
 
 	private int[][] parseMatrixAsArray(String matrixAsString) {
-		return fromListOfListToArrayOfArray(parseMatrixAsList(matrixAsString));
+		return fromListOfListToArrayOfArray(parseStringMatrixAsList(matrixAsString, this::parseListInt));
 	}
 
 	private int[][] fromListOfListToArrayOfArray(List<List<Integer>> list) {
@@ -102,8 +106,8 @@ class LeetCodeGraphTest {
 		return list.stream().mapToInt(integer -> integer).toArray();
 	}
 
-	private List<List<Integer>> parseMatrixAsList(String matrixAsString) {
-		List<List<Integer>> result = new ArrayList<>();
+	private <T> List<List<T>> parseStringMatrixAsList(String matrixAsString, Function<String, List<T>> parser) {
+		List<List<T>> result = new ArrayList<>();
 
 		for (int i = 1; i < matrixAsString.length() - 1; ) {
 			if (matrixAsString.charAt(i) == LEFT_BRAKET) {
@@ -114,27 +118,7 @@ class LeetCodeGraphTest {
 				}
 				builder.append(matrixAsString.charAt(i));
 				String string = builder.toString();
-				result.add(parseList(string));
-			}
-			i++;
-		}
-
-		return result;
-	}
-
-	private List<List<String>> parseMatrixAsStringList(String matrixAsString) {
-		List<List<String>> result = new ArrayList<>();
-
-		for (int i = 1; i < matrixAsString.length() - 1; ) {
-			if (matrixAsString.charAt(i) == LEFT_BRAKET) {
-				StringBuilder builder = new StringBuilder();
-				while (i < matrixAsString.length() && matrixAsString.charAt(i) != RIGHT_BRAKET) {
-					builder.append(matrixAsString.charAt(i));
-					i++;
-				}
-				builder.append(matrixAsString.charAt(i));
-				String string = builder.toString();
-				result.add(parseListSting(string));
+				result.add(parser.apply(string));
 			}
 			i++;
 		}
@@ -166,7 +150,7 @@ class LeetCodeGraphTest {
 		return out;
 	}
 
-	private List<Integer> parseList(String listAsString) {
+	private List<Integer> parseListInt(String listAsString) {
 		List<Integer> result = new ArrayList<>();
 
 		for (int i = 0; i < listAsString.length(); ) {
