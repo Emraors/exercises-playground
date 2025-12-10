@@ -92,19 +92,54 @@ class LeetCodeGraphTest {
 				leetCode.calcEquation(thirdEquations, thirdValues, thirdQueries));
 	}
 
+	@Test
+	void nearestExit() {
+		char[][] firstTest = parseMatrixAsCharArray("[[\"+\",\"+\",\".\",\"+\"],[\".\",\".\",\".\",\"+\"]");
+		char[][] secondTest = parseMatrixAsCharArray("[[\"+\",\"+\",\"+\"],[\".\",\".\",\".\"],[\"+\",\"+\",\"+\"]]");
+		char[][] testTest = parseMatrixAsCharArray("[[\".\",\"+\"]]");
+
+		assertEquals(1, leetCode.nearestExit(firstTest, new int[] { 1, 2 }));
+		assertEquals(2, leetCode.nearestExit(secondTest, new int[] { 1, 0 }));
+		assertEquals(-1, leetCode.nearestExit(testTest, new int[] { 0, 0 }));
+	}
+
 	private int[][] parseMatrixAsArray(String matrixAsString) {
 		return fromListOfListToArrayOfArray(parseStringMatrixAsList(matrixAsString, this::parseListInt));
 	}
 
+	private char[][] parseMatrixAsCharArray(String matrixAsString) {
+		return fromListOfListToArrayOfArrayChar(parseStringMatrixAsList(matrixAsString, this::parseListSting));
+	}
+
 	private int[][] fromListOfListToArrayOfArray(List<List<Integer>> list) {
 		return list.stream()
-				.map(this::fromListToArray)
+				.map(l -> l.stream().mapToInt(integer -> integer).toArray())
 				.toArray(int[][]::new);
 	}
 
-	private int[] fromListToArray(List<Integer> list) {
-		return list.stream().mapToInt(integer -> integer).toArray();
+	private char[][] fromListOfListToArrayOfArrayChar(List<List<String>> list) {
+		char[][] charMatrix = new char[list.size()][];
+
+		for (int i = 0; i < list.size(); i++) {
+			List<String> row = list.get(i);
+			charMatrix[i] = new char[row.size()];
+			for (int j = 0; j < row.size(); j++) {
+				charMatrix[i][j] = stringAsChar(row.get(j));
+			}
+		}
+		return charMatrix;
 	}
+
+	private char stringAsChar(String charString) {
+		char[] charArray = charString.toCharArray();
+		if (charArray.length > 1)
+			throw new IllegalArgumentException("Only applicable to a string of length 1");
+		return charArray.length == 0 ? Character.MIN_VALUE : charArray[0];
+	}
+
+/*	private int[] fromListToArray(List<Integer> list) {
+		return list.stream().mapToInt(integer -> integer).toArray();
+	}*/
 
 	private <T> List<List<T>> parseStringMatrixAsList(String matrixAsString, Function<String, List<T>> parser) {
 		List<List<T>> result = new ArrayList<>();
@@ -175,5 +210,4 @@ class LeetCodeGraphTest {
 				.map(Integer::parseInt)
 				.collect(Collectors.toList());
 	}
-
 }

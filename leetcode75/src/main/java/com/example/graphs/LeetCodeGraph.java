@@ -181,6 +181,116 @@ public class LeetCodeGraph {
 		return adjList;
 	}
 
+	/*
+
+		private void bfsMatrix(int[][] adjMatrix, int start, boolean[] visited) {
+			Queue<Integer> queue = new ArrayDeque<>();
+			queue.add(start);
+			visited[start] = true;
+			while (!queue.isEmpty()) {
+				int v = queue.poll();
+				for (int j = 0; j < adjMatrix[v].length; j++) {
+					if (adjMatrix[v][j] == 1 && !visited[j]) {
+						visited[j] = true;
+						queue.add(j);
+					}
+				}
+			}
+		}
+	*/
+
+	public int nearestExit(char[][] maze, int[] entrance) {
+		int nRows = maze.length;
+		int nCol = maze[0].length;
+
+		Queue<Coordinate> queue = new ArrayDeque<>();
+		Set<Coordinate> visited = new HashSet<>();
+
+		Coordinate start = new Coordinate(entrance[0], entrance[1]);
+		queue.add(start);
+		visited.add(start);
+
+		int steps = 0;
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			for (int i = 0; i < size; i++) {
+				Coordinate current = queue.poll();
+				int r = current.row();
+				int c = current.col();
+				if (!(r == start.row() && c == start.col()) && (r == 0 || r == nRows - 1 || c == 0 || c == nCol - 1)) {
+					return steps;
+				}
+
+				Coordinate[] neighbors = { current.moveRow(1), current.moveRow(-1), current.moveColumn(1),
+						current.moveColumn(-1) };
+
+				for (Coordinate next : neighbors) {
+					int nextRow = next.row();
+					int nextCol = next.col();
+
+					if (nextRow >= 0 && nextRow < nRows && nextCol >= 0 && nextCol < nCol && maze[nextRow][nextCol] == '.' && !visited.contains(
+							next)) {
+
+						visited.add(next);
+						queue.add(next);
+					}
+				}
+			}
+			steps++;
+		}
+		return -1;
+	}
+
+	//Versione ottimizzata (chat gpt):
+	public int nearestExitFaster(char[][] maze, int[] entrance) {
+		int n = maze.length;
+		int m = maze[0].length;
+
+		boolean[][] visited = new boolean[n][m];
+		Queue<int[]> queue = new ArrayDeque<>();
+
+		queue.add(new int[] { entrance[0], entrance[1] });
+		visited[entrance[0]][entrance[1]] = true;
+
+		int[][] dirs = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+		int steps = 0;
+
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+
+			for (int i = 0; i < size; i++) {
+				int[] cell = queue.poll();
+				int r = cell[0];
+				int c = cell[1];
+
+				if (!(r == entrance[0] && c == entrance[1]) && (r == 0 || r == n - 1 || c == 0 || c == m - 1)) {
+					return steps;
+				}
+				for (int[] d : dirs) {
+					int nr = r + d[0];
+					int nc = c + d[1];
+					if (nr >= 0 && nr < n && nc >= 0 && nc < m && maze[nr][nc] == '.' && !visited[nr][nc]) {
+						visited[nr][nc] = true;
+						queue.add(new int[] { nr, nc });
+					}
+				}
+			}
+			steps++;
+		}
+		return -1;
+	}
+
+	private record Coordinate(int row, int col) {
+		public Coordinate moveRow(int quantity) {
+			return new Coordinate(row + quantity, col);
+		}
+
+		public Coordinate moveColumn(int quantity) {
+			return new Coordinate(row, col + quantity);
+		}
+	}
+
 	private record WeightedNode(String nodeName, double weight) {
 	}
 
