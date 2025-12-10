@@ -181,24 +181,6 @@ public class LeetCodeGraph {
 		return adjList;
 	}
 
-	/*
-
-		private void bfsMatrix(int[][] adjMatrix, int start, boolean[] visited) {
-			Queue<Integer> queue = new ArrayDeque<>();
-			queue.add(start);
-			visited[start] = true;
-			while (!queue.isEmpty()) {
-				int v = queue.poll();
-				for (int j = 0; j < adjMatrix[v].length; j++) {
-					if (adjMatrix[v][j] == 1 && !visited[j]) {
-						visited[j] = true;
-						queue.add(j);
-					}
-				}
-			}
-		}
-	*/
-
 	public int nearestExit(char[][] maze, int[] entrance) {
 		int nRows = maze.length;
 		int nCol = maze[0].length;
@@ -281,6 +263,53 @@ public class LeetCodeGraph {
 		return -1;
 	}
 
+	public int orangesRotting(int[][] grid) {
+		int nRows = grid.length;
+		int nCol = grid[0].length;
+
+		Queue<int[]> rottenOranges = new ArrayDeque<>();
+
+		int[][] dirs = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+		int steps = 0, nFreshOranges = 0;
+
+		for (int i = 0; i < nRows; i++) {
+			for (int j = 0; j < nCol; j++) {
+				int gridValue = grid[i][j];
+				if (gridValue == 1)
+					nFreshOranges++;
+				if (gridValue == 2)
+					rottenOranges.add(new int[] { i, j });
+			}
+		}
+
+		if (nFreshOranges == 0)
+			return 0;
+
+		while (!rottenOranges.isEmpty()) {
+			boolean convertedThisMinute = false;
+			int size = rottenOranges.size();
+
+			for (int i = 0; i < size; i++) {
+				int[] rottenOrange = rottenOranges.poll();
+				int row = rottenOrange[0], col = rottenOrange[1];
+
+				for (int[] d : dirs) {
+					int nr = row + d[0];
+					int nc = col + d[1];
+					if (nr >= 0 && nr < nRows && nc >= 0 && nc < nCol && grid[nr][nc] == 1) {
+						grid[nr][nc] = 2;
+						rottenOranges.add(new int[] { nr, nc });
+						nFreshOranges--;
+						convertedThisMinute = true;
+					}
+				}
+			}
+			if (convertedThisMinute)
+				steps++;
+		}
+		return nFreshOranges == 0 ? steps : -1;
+	}
+
 	private record Coordinate(int row, int col) {
 		public Coordinate moveRow(int quantity) {
 			return new Coordinate(row + quantity, col);
@@ -293,5 +322,4 @@ public class LeetCodeGraph {
 
 	private record WeightedNode(String nodeName, double weight) {
 	}
-
 }

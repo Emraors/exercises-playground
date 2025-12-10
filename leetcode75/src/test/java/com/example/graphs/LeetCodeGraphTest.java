@@ -103,6 +103,17 @@ class LeetCodeGraphTest {
 		assertEquals(-1, leetCode.nearestExit(testTest, new int[] { 0, 0 }));
 	}
 
+	@Test
+	void orangesRotting() {
+		int[][] firstTest = parseMatrixAsArray("[[2,1,1],[1,1,0],[0,1,1]]");
+		int[][] secondTest = parseMatrixAsArray("[[2,1,1],[0,1,1],[1,0,1]]");
+		int[][] thirdTest = parseMatrixAsArray("[[0,2]]");
+
+		assertEquals(4, leetCode.orangesRotting(firstTest));
+		assertEquals(-1, leetCode.orangesRotting(secondTest));
+		assertEquals(0, leetCode.orangesRotting(thirdTest));
+	}
+
 	private int[][] parseMatrixAsArray(String matrixAsString) {
 		return fromListOfListToArrayOfArray(parseStringMatrixAsList(matrixAsString, this::parseListInt));
 	}
