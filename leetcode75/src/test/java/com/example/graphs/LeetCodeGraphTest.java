@@ -93,7 +93,7 @@ class LeetCodeGraphTest {
 	}
 
 	@Test
-	void nearestExit() {
+	void nearestExitTest() {
 		char[][] firstTest = parseMatrixAsCharArray("[[\"+\",\"+\",\".\",\"+\"],[\".\",\".\",\".\",\"+\"]");
 		char[][] secondTest = parseMatrixAsCharArray("[[\"+\",\"+\",\"+\"],[\".\",\".\",\".\"],[\"+\",\"+\",\"+\"]]");
 		char[][] testTest = parseMatrixAsCharArray("[[\".\",\"+\"]]");
@@ -104,7 +104,7 @@ class LeetCodeGraphTest {
 	}
 
 	@Test
-	void orangesRotting() {
+	void orangesRottingTest() {
 		int[][] firstTest = parseMatrixAsArray("[[2,1,1],[1,1,0],[0,1,1]]");
 		int[][] secondTest = parseMatrixAsArray("[[2,1,1],[0,1,1],[1,0,1]]");
 		int[][] thirdTest = parseMatrixAsArray("[[0,2]]");
