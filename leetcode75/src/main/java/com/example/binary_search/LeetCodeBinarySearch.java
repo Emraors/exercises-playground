@@ -88,4 +88,92 @@ public class LeetCodeBinarySearch {
 		}
 		return (left == potions.length) ? -1 : left;
 	}
+
+	public int findPeakElement(int[] nums) {
+		int length = nums.length;
+		if (length == 0)
+			return length;
+
+		return binaryFind(nums, length);
+	}
+
+	private int binaryFind(int[] nums, int length) {
+		int left = 0, right = length;
+		while (left < right) {
+			int mid = left + (right - left) / 2;
+
+			switch (classifyNeighbors(nums, length, mid)) {
+				case LEFT_BIGGER, LEFT_AND_RIGHT_BIGGER, NONE -> {
+					right = mid;
+				}
+				case RIGHT_BIGGER -> {
+					left = mid + 1;
+				}
+				case CENTER_BIGGER -> {
+					return mid;
+				}
+			}
+		}
+		return left;
+	}
+
+	private int iterateFind(int[] nums, int length) {
+		for (int i = 0; i < length; i++) {
+			if (isPeak(nums, length, i))
+				return i;
+		}
+		return -1;
+	}
+
+	private boolean isPeak(int[] nums, int numsLength, int index) {
+		int left = index == 0 ? Integer.MIN_VALUE : nums[index - 1];
+		int right = index == numsLength - 1 ? Integer.MIN_VALUE : nums[index + 1];
+
+		return nums[index] >= left && nums[index] >= right;
+	}
+
+	private NeighborTrend classifyNeighbors(int[] nums, int numsLength, int index) {
+		int left = index == 0 ? Integer.MIN_VALUE : nums[index - 1];
+		int right = index == numsLength - 1 ? Integer.MIN_VALUE : nums[index + 1];
+		int num = nums[index];
+
+		if (left > num && right > num)
+			return NeighborTrend.LEFT_AND_RIGHT_BIGGER;
+		else if (left > num)
+			return NeighborTrend.LEFT_BIGGER;
+		else if (right > num)
+			return NeighborTrend.RIGHT_BIGGER;
+		else if (num > left && num > right)
+			return NeighborTrend.CENTER_BIGGER;
+		else
+			return NeighborTrend.NONE;
+	}
+
+	private int binaryFind1(int[] nums, int length) {
+		int left = 0, right = length;
+		while (left < right) {
+			int mid = left + (right - left) / 2, midValue = nums[mid], leftMid = mid == 0
+					? Integer.MIN_VALUE
+					: nums[mid - 1], rightMid = mid == length - 1 ? Integer.MIN_VALUE : nums[mid + 1];
+
+			if (midValue < leftMid) {
+				right = mid;
+			} else if (midValue < rightMid) {
+				left = mid + 1;
+			}
+			if (midValue >= leftMid && midValue >= rightMid) {
+				return mid;
+			}
+		}
+		return -1;
+	}
+
+	private enum NeighborTrend {
+		LEFT_BIGGER,
+		RIGHT_BIGGER,
+		CENTER_BIGGER,
+		LEFT_AND_RIGHT_BIGGER,
+		NONE
+	}
+
 }
