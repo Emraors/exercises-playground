@@ -5,38 +5,19 @@ import java.util.Arrays;
 public class LeetCodeTwoPointers {
 
 	public void moveZeroes(int[] nums) {
-		int i = 0, nonzero = nextNonZero(0, nums);
-		while (i < nums.length && nonzero < nums.length) {
-			if (isZero(nums[i]) && isLeft(i, nonzero)) {
-				int temp = nums[nonzero];
-				nums[nonzero] = nums[i];
-				nums[i] = temp;
-				i++;
-				nonzero = nextNonZero(nonzero, nums);
-			} else if (isZero(nums[i]) && !isLeft(i, nonzero)) {
-				nonzero = nextNonZero(nonzero + 1, nums);
-			} else {
-				i++;
+		int write = 0;
+
+		for (int scan = 0; scan < nums.length; scan++) {
+			if (nums[scan] != 0) {
+				nums[write] = nums[scan];
+				write++;
 			}
 		}
-	}
 
-	public int nextNonZero(int actualIndex, int[] array) {
-		int index = actualIndex;
-		while (index < array.length) {
-			if (array[index] != 0)
-				return index;
-			index++;
+		while (write < nums.length) {
+			nums[write] = 0;
+			write++;
 		}
-		return actualIndex;
-	}
-
-	public boolean isZero(int num) {
-		return num == 0;
-	}
-
-	public boolean isLeft(int i, int j) {
-		return i < j;
 	}
 
 	public boolean isSubsequence(String s, String t) {

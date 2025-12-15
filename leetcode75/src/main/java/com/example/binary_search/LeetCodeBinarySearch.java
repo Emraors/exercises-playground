@@ -168,6 +168,10 @@ public class LeetCodeBinarySearch {
 		return -1;
 	}
 
+	public int minEatingSpeed(int[] piles, int h) {
+		return 0;
+	}
+
 	private enum NeighborTrend {
 		LEFT_BIGGER,
 		RIGHT_BIGGER,

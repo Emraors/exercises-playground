@@ -42,4 +42,15 @@ class LeetCodeBinarySearchTest {
 		assertTrue(leetCode.findPeakElement(secondTest) == 5 || leetCode.findPeakElement(
 				secondTest) == 1);
 	}
+
+	@Test
+	void testMinEatingSpeed() {
+		int[] firstTest = new int[] { 3, 6, 7, 11 };
+		int[] secondTest = new int[] { 30, 11, 23, 4, 20 };
+		int[] thirdTest = new int[] { 30, 11, 23, 4, 20 };
+
+		assertEquals(4, leetCode.minEatingSpeed(firstTest, 8));
+		assertEquals(30, leetCode.minEatingSpeed(secondTest, 5));
+		assertEquals(23, leetCode.minEatingSpeed(thirdTest, 6));
+	}
 }
