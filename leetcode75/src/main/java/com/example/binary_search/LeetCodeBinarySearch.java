@@ -169,7 +169,41 @@ public class LeetCodeBinarySearch {
 	}
 
 	public int minEatingSpeed(int[] piles, int h) {
-		return 0;
+		if (piles.length == 0)
+			return 0;
+		int max = findMax(piles);
+
+		return binaryMin(piles, max, h);
+	}
+
+	private int binaryMin(int[] piles, int max, int h) {
+		int left = 1, right = max, mid = 0;
+		while (left < right) {
+			mid = left + (right - left) / 2;
+			if (sumRatio(piles, mid) <= h) {
+				right = mid;
+			} else {
+				left = mid + 1;
+			}
+		}
+		return left;
+	}
+
+	private int sumRatio(int[] piles, int k) {
+		int sum = 0;
+		for (int pile : piles) {
+			sum = sum + (pile + k - 1) / k;
+		}
+		return sum;
+	}
+
+	private int findMax(int[] array) {
+		int max = Integer.MIN_VALUE;
+		for (int el : array) {
+			if (el >= max)
+				max = el;
+		}
+		return max;
 	}
 
 	private enum NeighborTrend {
