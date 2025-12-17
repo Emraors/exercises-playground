@@ -45,4 +45,12 @@ class LeetCodeDP1DTest {
 		leetCode.cleanState();
 		assertEquals(3365, leetCode.rob(fifthTest));
 	}
+
+	@Test
+	void testNumTilings() {
+
+		assertEquals(5, leetCode.numTilings(3));
+		assertEquals(11, leetCode.numTilings(4));
+
+	}
 }

@@ -106,4 +106,22 @@ public class LeetCodeDP1D {
 		firstMemoizationRob.put(allowedIndexes, max);
 		return max;
 	}
+
+	public int numTilings(int n) {
+		final long MOD = 1_000_000_007L;
+		if (n <= 2)
+			return n;
+
+		var mem = new long[n + 1];
+		mem[0] = 0;
+		mem[1] = 1;
+		mem[2] = 2;
+		mem[3] = 5;
+
+		for (int i = 4; i <= n; i++) {
+			mem[i] = ((2L * mem[i - 1] + mem[i - 3]) % MOD);
+		}
+
+		return (int) mem[n];
+	}
 }
