@@ -9,12 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LeetCodeTrieTest {
 
+	private final LeetCodeTrie leetCode = new LeetCodeTrie(new Trie());
+
 	@Test
 	void exampleFromLeetCode() {
-		LeetCodeTrie s = new LeetCodeTrie();
 		String[] products = { "mobile", "mouse", "moneypot", "monitor", "mousepad" };
 		String searchWord = "mouse";
-		List<List<String>> out = s.suggestedProducts(products, searchWord);
+		List<List<String>> out = leetCode.suggestedProducts(products, searchWord);
 
 		assertEquals(List.of("mobile", "moneypot", "monitor"), out.get(0));
 		assertEquals(List.of("mobile", "moneypot", "monitor"), out.get(1));
@@ -25,20 +26,19 @@ class LeetCodeTrieTest {
 
 	@Test
 	void handlesNoMatchesAndEdgeChars() {
-		LeetCodeTrie s = new LeetCodeTrie();
+
 		String[] products = { "a", "b", "aa", "ab", "zzz" };
-		List<List<String>> out = s.suggestedProducts(products, "c");
+		List<List<String>> out = leetCode.suggestedProducts(products, "c");
 		assertEquals(1, out.size());
 		assertTrue(out.get(0).isEmpty());
 
-		out = s.suggestedProducts(products, "az");
+		out = leetCode.suggestedProducts(products, "az");
 		assertEquals(List.of(List.of("a", "aa", "ab"), List.of()), out);
 	}
 
 	@Test
 	void emptySearchWordProducesEmptyResult() {
-		LeetCodeTrie s = new LeetCodeTrie();
-		List<List<String>> out = s.suggestedProducts(new String[] { "a", "b" }, "");
+		List<List<String>> out = leetCode.suggestedProducts(new String[] { "a", "b" }, "");
 		assertTrue(out.isEmpty());
 	}
 }

@@ -1,6 +1,8 @@
 package com.example.trie;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HashMapTrie implements TrieInt {
@@ -48,6 +50,33 @@ public class HashMapTrie implements TrieInt {
 			}
 		}
 		return node;
+	}
+
+	@Override
+	public List<String> withPrefix(String prefix) {
+		requireNonNull(prefix);
+
+		TrieNode start = traverse(prefix);
+		List<String> result = new ArrayList<>();
+
+		if (start == null) {
+			return result;
+		}
+
+		dfs(start, new StringBuilder(prefix), result);
+		return result;
+	}
+
+	private void dfs(TrieNode node, StringBuilder path, List<String> out) {
+		if (node.isWord) {
+			out.add(path.toString());
+		}
+
+		for (var entry : node.children.entrySet()) {
+			path.append(entry.getKey());
+			dfs(entry.getValue(), path, out);
+			path.deleteCharAt(path.length() - 1);
+		}
 	}
 
 	private static final class TrieNode {

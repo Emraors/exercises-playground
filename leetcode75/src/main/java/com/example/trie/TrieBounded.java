@@ -3,11 +3,11 @@ package com.example.trie;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrieCapped implements TrieInt {
+public class TrieBounded implements TrieInt {
 
 	private final TrieNode root;
 
-	public TrieCapped() {
+	public TrieBounded() {
 		this.root = new TrieNode();
 	}
 
@@ -69,7 +69,8 @@ public class TrieCapped implements TrieInt {
 		return node;
 	}
 
-	public List<String> suggestionsForPrefix(String prefix) {
+	@Override
+	public List<String> withPrefix(String prefix) {
 		requireNonNull(prefix);
 		TrieNode node = traverse(prefix);
 		if (node == null)
