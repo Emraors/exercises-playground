@@ -213,5 +213,4 @@ public class LeetCodeBinarySearch {
 		LEFT_AND_RIGHT_BIGGER,
 		NONE
 	}
-
 }
