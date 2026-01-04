@@ -51,4 +51,15 @@ class LeetCodeHashMapTest {
 		assertEquals(1, leetCode.equalPairs(firstTest));
 		assertEquals(3, leetCode.equalPairs(secondTest));
 	}
+
+	@Test
+	void testTwoSum() {
+		int[] firstTest = { 2, 7, 11, 15 };
+		int[] secondTest = { 3, 2, 4 };
+		int[] thirdTest = { 3, 3 };
+
+		assertArrayEquals(new int[] { 0, 1 }, leetCode.twoSum(firstTest, 9));
+		assertArrayEquals(new int[] { 1, 2 }, leetCode.twoSum(secondTest, 6));
+		assertArrayEquals(new int[] { 0, 1 }, leetCode.twoSum(thirdTest, 6));
+	}
 }

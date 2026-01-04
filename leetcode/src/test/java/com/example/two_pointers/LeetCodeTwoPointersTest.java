@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class LeetCodeTwoPointersTest {
 
 	private final LeetCodeTwoPointers leetCode = new LeetCodeTwoPointers();
+	private final StateMachineExperiment experiment = new StateMachineExperiment();
 
 	@Test
 	public void testMoveZeroes() {
@@ -63,5 +64,16 @@ class LeetCodeTwoPointersTest {
 		assertEquals(0, leetCode.maxOperations(firstTest, 0));
 		assertEquals(0, leetCode.maxOperations(new int[] {}, 2));
 		assertEquals(1, leetCode.maxOperations(secondTest, 6));
+	}
+
+	@Test
+	public void testIsPalindrome() {
+
+		assertTrue(experiment.isPalindrome(""));
+		assertTrue(experiment.isPalindrome("a"));
+		assertTrue(experiment.isPalindrome("A man, a plan, a canal: Panama"));
+		assertFalse(experiment.isPalindrome("race a car"));
+		assertTrue(experiment.isPalindrome("., "));
+		assertFalse(experiment.isPalindrome("0P"));
 	}
 }

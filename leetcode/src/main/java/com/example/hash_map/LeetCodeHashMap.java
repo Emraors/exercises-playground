@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class LeetCodeHashMap {
+
 	public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
 		Set<Integer> distinctNums1 = Arrays.stream(nums1).boxed().collect(Collectors.toSet());
 		Set<Integer> distinctNums2 = Arrays.stream(nums2).boxed().collect(Collectors.toSet());
@@ -69,6 +70,40 @@ public class LeetCodeHashMap {
 			count += frequency.getOrDefault(key, 0);
 		}
 		return count;
+	}
+
+	public int[] twoSumBrutal(int[] nums, int target) {
+		int[] result = new int[2];
+
+		for (int i = 0; i < nums.length; i++) {
+			for (int j = i + 1; j < nums.length; j++) {
+				if (nums[i] + nums[j] == target) {
+					result[0] = i;
+					result[1] = j;
+					return result;
+				}
+			}
+		}
+		return result;
+	}
+
+	public int[] twoSum(int[] nums, int target) {
+		Map<Integer, Integer> resultMap = new HashMap<>();
+
+		for (int i = 0; i < nums.length; i++) {
+			resultMap.put(target - nums[i], i);
+		}
+
+		for (int j = 0; j < nums.length; j++) {
+			int value = nums[j];
+			Integer i = resultMap.get(value);
+
+			if (i != null && i != j) {
+				return new int[] { j, i };
+			}
+		}
+
+		return new int[] {};
 	}
 
 	private static class ArrayKey {

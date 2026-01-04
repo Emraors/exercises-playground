@@ -101,6 +101,46 @@ public class LeetCodeTwoPointers {
 		return counter;
 	}
 
+	public int removeDuplicates(int[] nums) {
+		int length = nums.length;
+		int index = 0;
+		int duplicateIndex;
+		int write = 0;
+
+		while (index < length) {
+			int num = nums[index];
+			duplicateIndex = index + 1;
+
+			while (duplicateIndex < length && nums[duplicateIndex] == num) {
+				duplicateIndex++;
+			}
+			nums[write] = num;
+			write++;
+
+			index = duplicateIndex;
+		}
+
+		return write;
+	}
+
+	public void reverseString(char[] s) {
+		int left = 0;
+		int right = s.length - 1;
+
+		while (left < right) {
+			char leftChar = s[left];
+			char rightChar = s[right];
+
+			s[left] = rightChar;
+			s[right] = leftChar;
+
+			left++;
+			right--;
+		}
+	}
+
+	//Fatta apposta in questo modo per "allenarmi" con i two pointers
+
 	private static class Pointer implements Comparable<Pointer> {
 		private final int[] ints;
 		private int index;
