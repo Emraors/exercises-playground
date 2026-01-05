@@ -76,4 +76,38 @@ class LeetCodeTwoPointersTest {
 		assertTrue(experiment.isPalindrome("., "));
 		assertFalse(experiment.isPalindrome("0P"));
 	}
+
+	@Test
+	void testSortedSquares() {
+		assertArrayEquals(new int[] { 0, 1, 9, 16, 100 }, leetCode.sortedSquares(new int[] { -4, -1, 0, 3, 10 }));
+		assertArrayEquals(new int[] { 4, 9, 9, 49, 121 }, leetCode.sortedSquares(new int[] { -7, -3, 2, 3, 11 }));
+	}
+
+	@Test
+	void testMerge() {
+		int[] firstTest1 = { 1, 2, 3, 0, 0, 0 };
+		int[] firstTest2 = { 2, 5, 6 };
+
+		int[] secondTest1 = { 1 };
+		int[] secondTest2 = { 0 };
+
+		int[] thirdTest1 = { 0 };
+		int[] thirdTest2 = { 1 };
+
+		int[] fourthTest1 = { 0, 0, 0 };
+		int[] fourthTest2 = { 1, 2, 4 };
+
+		leetCode.merge(firstTest1, 3, firstTest2, 3);
+		assertArrayEquals(new int[] { 1, 2, 2, 3, 5, 6 }, firstTest1);
+
+		leetCode.merge(secondTest1, 1, secondTest2, 0);
+		assertArrayEquals(new int[] { 1 }, secondTest1);
+
+		leetCode.merge(thirdTest1, 0, thirdTest2, 1);
+		assertArrayEquals(new int[] { 1 }, thirdTest1);
+
+		leetCode.merge(fourthTest1, 0, fourthTest2, 3);
+		assertArrayEquals(new int[] { 1, 2, 4 }, fourthTest1);
+
+	}
 }

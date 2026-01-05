@@ -139,7 +139,57 @@ public class LeetCodeTwoPointers {
 		}
 	}
 
-	//Fatta apposta in questo modo per "allenarmi" con i two pointers
+	public int[] sortedSquares(int[] nums) {
+		int length = nums.length;
+		int left = 0, right = length - 1, running = length - 1;
+
+		int[] result = new int[length];
+
+		while (left <= right) {
+			int nLeft = nums[left] * nums[left];
+			int nRight = nums[right] * nums[right];
+
+			if (nLeft <= nRight) {
+				result[running] = nRight;
+				right--;
+			} else {
+				result[running] = nLeft;
+				left++;
+			}
+			running--;
+		}
+		return result;
+	}
+
+	public void merge(int[] nums1, int m, int[] nums2, int n) {
+		int running = m + n - 1, p1 = m - 1, p2 = n - 1;
+
+		while (running >= 0 && p1 >= 0 && p2 >= 0) {
+			int value2 = nums2[p2];
+			int value1 = nums1[p1];
+
+			if (value1 >= value2) {
+				nums1[running] = value1;
+				p1--;
+			} else {
+				nums1[running] = value2;
+				p2--;
+			}
+			running--;
+		}
+
+		while (p2 >= 0 && running >= 0) {
+			nums1[running] = nums2[p2];
+			p2--;
+			running--;
+		}
+
+		while (p1 >= 0 && running >= 0) {
+			nums1[running] = nums1[p1];
+			p1--;
+			running--;
+		}
+	}
 
 	private static class Pointer implements Comparable<Pointer> {
 		private final int[] ints;

@@ -58,6 +58,19 @@ public class LeetCodeLinkedList {
 		return prevNode;
 	}
 
+	public ListNode reverseListRec(ListNode head) {
+		if (head == null || head.next == null) {
+			return head;
+		}
+
+		var rest = reverseListRec(head.next);
+
+		head.next = null;
+		addLast(head, rest);
+
+		return rest;
+	}
+
 	public int pairSum(ListNode head) {
 		if (head == null || head.next == null)
 			return 0;
@@ -78,6 +91,85 @@ public class LeetCodeLinkedList {
 			secondHalf = secondHalf.next;
 		}
 		return sum;
+	}
+
+	public void addLast(ListNode node, ListNode head) {
+		ListNode current = head;
+		while (current.next != null) {
+			current = current.next;
+		}
+		current.next = node;
+	}
+
+	public ListNode interleave(ListNode a, ListNode b) {
+		if (a == null)
+			return b;
+		if (b == null)
+			return a;
+
+		var node = a;
+
+		while (a != null && b != null) {
+			var aNext = a.next;
+			var bNext = b.next;
+
+			a.next = b;
+			b.next = aNext;
+
+			b = bNext;
+			a = aNext;
+		}
+		return node;
+	}
+
+	public ListNode reverseBetween(ListNode head, int m, int n) {
+		if (head == null || m == n)
+			return head;
+
+		var dummy = new ListNode(0, head);
+		var prev = dummy;
+
+		for (int i = 0; i < m - 1; i++) {
+			prev = prev.next;
+		}
+
+		var start = prev.next;
+		var tail = start;
+		for (int i = m; i < n; i++) {
+			tail = tail.next;
+		}
+
+		var after = tail.next;
+		tail.next = null;
+
+		prev.next = reverseList(start);
+		start.next = after;
+
+		return dummy.next;
+	}
+
+	public ListNode removeNthFromEnd(ListNode head, int n) {
+		ListNode dummy = new ListNode(0, head);
+
+		ListNode fast = dummy;
+		ListNode slow = dummy;
+
+		for (int i = 0; i <= n; i++) {
+			fast = fast.next;
+		}
+
+		while (fast != null) {
+			fast = fast.next;
+			slow = slow.next;
+		}
+
+		slow.next = slow.next.next;
+
+		return dummy.next;
+	}
+
+	public ListNode partition(ListNode head, int x) {
+		return null;
 	}
 
 	public static class ListNode {
