@@ -1,5 +1,6 @@
 package com.example.linked_list;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -142,4 +143,27 @@ class LeetCodeLinkedListTest {
 		assertEquals(createListNodeFromList(new ArrayList<>(Arrays.asList(3, 3, 3))), leetCode.partition(thirdTest, 3));
 	}
 
+	@Test
+	@Disabled
+	void testReorderList() {
+		ListNode firstTest = createListNodeFromList(new ArrayList<>(Arrays.asList(1, 2, 3, 4)));
+		ListNode secondTest = createListNodeFromList(new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5)));
+		ListNode thirdTest = createListNodeFromList(new ArrayList<>(List.of(1)));
+		ListNode fourthTest = createListNodeFromList(new ArrayList<>(Arrays.asList(1, 2)));
+
+		assertEquals(createListNodeFromList(new ArrayList<>(Arrays.asList(1, 4, 2, 3))),
+				leetCode.reorderList(firstTest));
+		assertEquals(createListNodeFromList(new ArrayList<>(Arrays.asList(1, 5, 2, 4, 3))),
+				leetCode.reorderList(secondTest));
+		assertEquals(createListNodeFromList(new ArrayList<>(List.of(1))), leetCode.reorderList(thirdTest));
+		assertEquals(createListNodeFromList(new ArrayList<>(Arrays.asList(1, 2))), leetCode.reorderList(fourthTest));
+	}
+
+	@Test
+	void testRemoveElements() {
+		ListNode firstTest = createListNodeFromList(new ArrayList<>(Arrays.asList(1, 2, 6, 3, 4, 5, 6)));
+
+		assertEquals(createListNodeFromList(new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5))),
+				leetCode.removeElements(firstTest, 6));
+	}
 }

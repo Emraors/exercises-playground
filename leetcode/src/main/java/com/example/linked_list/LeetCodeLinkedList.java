@@ -168,7 +168,55 @@ public class LeetCodeLinkedList {
 		return dummy.next;
 	}
 
+	public ListNode removeElements(ListNode head, int val) {
+		if (head == null)
+			return null;
+
+		ListNode dummy = new ListNode(0, head);
+		ListNode current = dummy.next;
+		ListNode prev = dummy;
+
+		while (current != null) {
+			if (current.val == val) {
+				prev.next = current.next;
+			} else {
+				prev = prev.next;
+			}
+			current = current.next;
+		}
+
+		return dummy.next;
+	}
+
 	public ListNode partition(ListNode head, int x) {
+		var leftDummy = new ListNode();
+		var rightDummy = new ListNode();
+
+		var left = leftDummy;
+		var right = rightDummy;
+
+		var current = head;
+
+		while (current != null) {
+			var next = current.next;
+			current.next = null;
+
+			if (current.val < x) {
+				left.next = current;
+				left = left.next;
+			} else {
+				right.next = current;
+				right = right.next;
+			}
+
+			current = next;
+		}
+
+		left.next = rightDummy.next;
+		return leftDummy.next;
+	}
+
+	public ListNode reorderList(ListNode head) {
 		return null;
 	}
 
