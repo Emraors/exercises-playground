@@ -159,4 +159,13 @@ public class LeetCodeArray {
 
 		return res;
 	}
+
+	public boolean containsDuplicate(int[] nums) {
+		var frequencyMap = new HashMap<Integer, Integer>();
+
+		for (int num : nums) {
+			frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
+		}
+		return Arrays.stream(nums).map(frequencyMap::get).filter(n -> n != 1).toArray().length != 0;
+	}
 }
