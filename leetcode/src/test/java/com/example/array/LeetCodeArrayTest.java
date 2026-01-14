@@ -113,4 +113,48 @@ class LeetCodeArrayTest {
 		assertFalse(leetCode.containsDuplicate(secondTest));
 		assertTrue(leetCode.containsDuplicate(thirdTest));
 	}
+
+	@Test
+	void testMaxSubArray() {
+		int[] firstTest = { -2, 1, -3, 4, -1, 2, 1, -5, 4 };
+		int[] secondTest = { 1 };
+		int[] thirdTest = { 5, 4, -1, 7, 8 };
+
+		assertEquals(6, leetCode.maxSubArray(firstTest));
+		assertEquals(1, leetCode.maxSubArray(secondTest));
+		assertEquals(23, leetCode.maxSubArray(thirdTest));
+		assertEquals(0, leetCode.maxSubArray(new int[] {}));
+
+		var streamer = new MaxSubArrayStream();
+
+		for (int x : firstTest) {
+			streamer.accept(x);
+		}
+		assertEquals(6, streamer.getMostRecentMax());
+		streamer.reset();
+
+		streamer.accept(firstTest);
+		assertEquals(6, streamer.getMostRecentMax());
+		streamer.reset();
+
+		for (int x : secondTest) {
+			streamer.accept(x);
+		}
+		assertEquals(1, streamer.getMostRecentMax());
+		streamer.reset();
+
+		streamer.accept(secondTest);
+		assertEquals(1, streamer.getMostRecentMax());
+		streamer.reset();
+
+		for (int x : thirdTest) {
+			streamer.accept(x);
+		}
+		assertEquals(23, streamer.getMostRecentMax());
+		streamer.reset();
+
+		streamer.accept(thirdTest);
+		assertEquals(23, streamer.getMostRecentMax());
+		streamer.reset();
+	}
 }

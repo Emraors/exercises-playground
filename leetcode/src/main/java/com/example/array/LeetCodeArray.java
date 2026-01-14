@@ -160,6 +160,60 @@ public class LeetCodeArray {
 		return res;
 	}
 
+	public List<List<Integer>> subArrays(int[] nums) {
+		List<List<Integer>> res = new LinkedList<>();
+
+		for (int i = 0; i < nums.length; i++) {
+			for (int j = i; j < nums.length; j++) {
+				List<Integer> sub = new ArrayList<>();
+				for (int k = i; k <= j; k++) {
+					sub.add(nums[k]);
+				}
+				res.add(sub);
+			}
+		}
+		return res;
+	}
+
+	public int maxSub(int[] nums) {
+		return subArrays(nums).stream().map(l -> l.stream().mapToInt(Integer::intValue).sum())
+				.max(Comparator.naturalOrder()).orElse(0);
+	}
+
+	public int maxSub2(int[] nums) {
+		if (nums.length == 0)
+			return 0;
+		int res = nums[0];
+
+		for (int i = 0; i < nums.length; i++) {
+			int currSum = 0;
+
+			for (int j = i; j < nums.length; j++) {
+				currSum = currSum + nums[j];
+
+				res = Math.max(res, currSum);
+			}
+		}
+		return res;
+	}
+
+	public int maxSubArray(int[] nums) {
+		int length = nums.length;
+		if (length == 0)
+			return 0;
+
+		int[] maxEndingAt = new int[length];
+		maxEndingAt[0] = nums[0];
+		int max = nums[0];
+
+		for (int i = 1; i < length; i++) {
+			maxEndingAt[i] = Math.max(maxEndingAt[i - 1] + nums[i], nums[i]);
+			max = Math.max(maxEndingAt[i], max);
+		}
+
+		return max;
+	}
+
 	public boolean containsDuplicate(int[] nums) {
 		var frequencyMap = new HashMap<Integer, Integer>();
 

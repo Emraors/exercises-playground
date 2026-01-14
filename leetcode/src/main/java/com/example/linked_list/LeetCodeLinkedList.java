@@ -217,6 +217,7 @@ public class LeetCodeLinkedList {
 	}
 
 	public ListNode reorderList(ListNode head) {
+		var dummyNode = new ListNode();
 
 		return null;
 	}
