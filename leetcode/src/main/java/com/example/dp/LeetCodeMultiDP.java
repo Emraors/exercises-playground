@@ -94,4 +94,22 @@ public class LeetCodeMultiDP {
 
 		return mem[m][n];
 	}
+
+	public int maxProfit(int[] prices) {
+		int length = prices.length;
+		if (length == 0)
+			return 0;
+
+		int currentMax = 0;
+		int[] maxSub = new int[length];
+		maxSub[length - 1] = prices[length - 1];
+
+		for (int i = length - 2; i >= 0; i--) {
+			maxSub[i] = Math.max(maxSub[i + 1], prices[i]);
+			int maxOwn = maxSub[i + 1] - prices[i];
+			currentMax = Math.max(currentMax, maxOwn);
+		}
+
+		return currentMax;
+	}
 }
