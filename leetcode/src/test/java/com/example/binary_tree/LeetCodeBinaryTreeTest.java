@@ -228,4 +228,15 @@ class LeetCodeBinaryTreeTest {
 		}
 		return result;
 	}
+
+	@Test
+	void testLevelOrder() {
+		TreeNode firstTest = createTreeNodeFromList(Arrays.asList(3, 9, 20, null, null, 15, 7));
+		TreeNode secondTest = createTreeNodeFromList(List.of(1));
+		TreeNode thirdTest = createTreeNodeFromList(new ArrayList<>());
+
+		assertEquals(List.of(List.of(3), List.of(9, 20), List.of(15, 7)), leetCode.levelOrder(firstTest));
+		assertEquals(List.of(List.of(1)), leetCode.levelOrder(secondTest));
+		assertEquals(List.of(), leetCode.levelOrder(thirdTest));
+	}
 }

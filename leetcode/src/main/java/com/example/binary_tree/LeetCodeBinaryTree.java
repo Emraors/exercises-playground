@@ -339,8 +339,49 @@ public class LeetCodeBinaryTree {
 			return getLeftMostLeaf(node.left);
 	}
 
+	public List<List<Integer>> levelOrder(TreeNode root) {
+		List<List<Integer>> result = new ArrayList<>();
+		Queue<TreeNode> nodesQueue = new LinkedList<>();
+
+		if (root == null)
+			return result;
+
+		nodesQueue.offer(root);
+
+		while (!nodesQueue.isEmpty()) {
+			int levelSize = nodesQueue.size();
+			List<Integer> nodesAtLevel = new LinkedList<>();
+
+			for (int i = 0; i < levelSize; i++) {
+				TreeNode polledNode = nodesQueue.poll();
+				nodesAtLevel.add(polledNode.val);
+
+				if (polledNode.left != null) {
+					nodesQueue.offer(polledNode.left);
+				}
+				if (polledNode.right != null) {
+					nodesQueue.offer(polledNode.right);
+				}
+			}
+			result.add(nodesAtLevel);
+		}
+
+		return result;
+	}
+
 	public TreeNode addNode(TreeNode node, TreeNode nodeToAdd) {
 		return null;
+	}
+
+	public int sockMerchant(int n, List<Integer> ar) {
+		// Write your code here
+		HashMap<Integer, Integer> sockMap = new HashMap<>();
+
+		for (int sock : ar) {
+			sockMap.merge(sock, 1, Integer::sum);
+		}
+
+		return sockMap.values().stream().reduce(0, (acc, v) -> acc + v / 2);
 	}
 
 	public enum Direction {
