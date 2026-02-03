@@ -62,4 +62,19 @@ class LeetCodeHashMapTest {
 		assertArrayEquals(new int[] { 1, 2 }, leetCode.twoSum(secondTest, 6));
 		assertArrayEquals(new int[] { 0, 1 }, leetCode.twoSum(thirdTest, 6));
 	}
+
+	@Test
+	void testGroupAnagrams() {
+		String[] firstTest = new String[] { "eat", "tea", "tan", "ate", "nat", "bat" };
+		String[] secondTest = new String[] { "" };
+		String[] thirdTest = new String[] { "a" };
+
+		List<List<String>> firstTestResult = leetCode.groupAnagrams(firstTest);
+		assertTrue(firstTestResult.contains(List.of("bat")));
+		assertTrue(firstTestResult.contains(List.of("tan", "nat")));
+		assertTrue(firstTestResult.contains(List.of("eat", "tea", "ate")));
+
+		assertEquals(List.of(List.of("")), leetCode.groupAnagrams(secondTest));
+		assertEquals(List.of(List.of("a")), leetCode.groupAnagrams(thirdTest));
+	}
 }

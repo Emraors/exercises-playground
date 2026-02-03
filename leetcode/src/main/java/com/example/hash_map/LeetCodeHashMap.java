@@ -106,6 +106,19 @@ public class LeetCodeHashMap {
 		return new int[] {};
 	}
 
+	private String anagramOf(String s) {
+		char[] chars = s.toCharArray();
+		Arrays.sort(chars);
+		return new String(chars);
+	}
+
+	public List<List<String>> groupAnagrams(String[] words) {
+		return Arrays.stream(words)
+				.collect(Collectors.groupingBy(this::anagramOf))
+				.values()
+				.stream().toList();
+	}
+
 	private static class ArrayKey {
 		private final int[] array;
 
