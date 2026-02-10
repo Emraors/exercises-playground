@@ -108,4 +108,23 @@ class LeetCodeGraphTest {
 		assertEquals(-1, leetCode.orangesRotting(secondTest));
 		assertEquals(0, leetCode.orangesRotting(thirdTest));
 	}
+
+	@Test
+	void testNumIslands() {
+		char[][] firstTest = parseMatrixAsCharArray("[\n" +
+				"  [\"1\",\"1\",\"1\",\"1\",\"0\"],\n" +
+				"  [\"1\",\"1\",\"0\",\"1\",\"0\"],\n" +
+				"  [\"1\",\"1\",\"0\",\"0\",\"0\"],\n" +
+				"  [\"0\",\"0\",\"0\",\"0\",\"0\"]\n" +
+				"]");
+		char[][] secondTest = parseMatrixAsCharArray("[\n" +
+				"  [\"1\",\"1\",\"0\",\"0\",\"0\"],\n" +
+				"  [\"1\",\"1\",\"0\",\"0\",\"0\"],\n" +
+				"  [\"0\",\"0\",\"1\",\"0\",\"0\"],\n" +
+				"  [\"0\",\"0\",\"0\",\"1\",\"1\"]\n" +
+				"]");
+
+		assertEquals(1, leetCode.numIslands(firstTest));
+		assertEquals(3, leetCode.numIslands(secondTest));
+	}
 }

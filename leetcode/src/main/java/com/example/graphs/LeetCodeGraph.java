@@ -310,6 +310,58 @@ public class LeetCodeGraph {
 		return nFreshOranges == 0 ? steps : -1;
 	}
 
+	public int numIslands(char[][] grid) {
+		if (grid.length == 0)
+			return 0;
+
+		int nRows = grid.length;
+		int nColumns = grid[0].length;
+		boolean[][] visited = new boolean[nRows][nColumns];
+		int nIslands = 0;
+
+		for (int i = 0; i < nRows; i++) {
+			for (int j = 0; j < nColumns; j++) {
+				if (grid[i][j] == '1' && !visited[i][j]) {
+					exploreIsland(grid, visited, i, j);
+					nIslands++;
+				}
+			}
+		}
+
+		return nIslands;
+	}
+
+	private void exploreIsland(char[][] grid, boolean[][] visited, int rowIndex, int colIndex) {
+		int rows = grid.length;
+		int cols = grid[0].length;
+
+		Deque<int[]> stack = new ArrayDeque<>();
+		stack.push(new int[] { rowIndex, colIndex });
+		visited[rowIndex][colIndex] = true;
+
+		int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+
+		while (!stack.isEmpty()) {
+			int[] cell = stack.pop();
+			int row = cell[0];
+			int col = cell[1];
+
+			for (int[] d : directions) {
+				int nr = row + d[0];
+				int nc = col + d[1];
+
+				if (nr >= 0 && nr < rows &&
+						nc >= 0 && nc < cols &&
+						grid[nr][nc] == '1' &&
+						!visited[nr][nc]) {
+
+					visited[nr][nc] = true;
+					stack.push(new int[] { nr, nc });
+				}
+			}
+		}
+	}
+
 	private record Coordinate(int row, int col) {
 		public Coordinate moveRow(int quantity) {
 			return new Coordinate(row + quantity, col);
