@@ -74,6 +74,7 @@ public class LeetCodeSlidingWindow {
 		return longest;
 	}
 
+	// This assumes that the numbers are positive
 	public int longestSubarray(int[] nums) {
 		int index = 0, length = nums.length, longest = 0, currentLength = 0, zeroCount = 0, zeroIndex =
 				0;
@@ -99,4 +100,75 @@ public class LeetCodeSlidingWindow {
 		}
 		return longest - 1;
 	}
+
+	public int minSubArrayLen(int target, int[] nums) {
+		int n = nums.length;
+
+		int left = 0;
+		int right = 0;
+		int sum = 0;
+		int minLen = Integer.MAX_VALUE;
+
+		while (right < n) {
+
+			sum += nums[right];
+			right++;
+
+			while (sum >= target) {
+				minLen = Math.min(minLen, right - left);
+				sum -= nums[left];
+				left++;
+			}
+		}
+
+		return minLen == Integer.MAX_VALUE ? 0 : minLen;
+	}
+
+	// Using binary search
+	public int minSubArrayLenBinSearch(int target, int[] nums) {
+		int n = nums.length;
+
+		long[] prefix = new long[n + 1];
+		for (int i = 0; i < n; i++) {
+			prefix[i + 1] = prefix[i] + nums[i];
+		}
+
+		int minLen = Integer.MAX_VALUE;
+
+		for (int i = 0; i < n; i++) {
+			long required = prefix[i] + target;
+
+			int j = lowerBound(prefix, required);
+
+			if (j != prefix.length) {
+				minLen = Math.min(minLen, j - i);
+			}
+		}
+
+		return minLen == Integer.MAX_VALUE ? 0 : minLen;
+	}
+
+	private int lowerBound(long[] arr, long target) {
+		int left = 0;
+		int right = arr.length;
+
+		while (left < right) {
+			int mid = left + (right - left) / 2;
+
+			if (arr[mid] < target) {
+				left = mid + 1;
+			} else {
+				right = mid;
+			}
+		}
+
+		return left;
+	}
+
+	public int characterReplacement(String s, int k) {
+		int result = 0;
+
+		return result;
+	}
+
 }

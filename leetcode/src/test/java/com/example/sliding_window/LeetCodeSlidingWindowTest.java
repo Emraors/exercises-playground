@@ -68,4 +68,16 @@ class LeetCodeSlidingWindowTest {
 		return Arrays.stream(contenuto.trim().split("\\s*,\\s*")).filter(s -> !s.isEmpty())
 				.mapToInt(Integer::parseInt).toArray();
 	}
+
+	@Test
+	void testMinSubArrayLen() {
+
+		int[] firstTest = { 2, 3, 1, 2, 4, 3 };
+		int[] secondTest = { 1, 4, 4 };
+		int[] thirdTest = { 1, 1, 1, 1, 1, 1, 1, 1 };
+
+		assertEquals(2, leetCode.minSubArrayLen(7, firstTest));
+		assertEquals(1, leetCode.minSubArrayLen(4, secondTest));
+		assertEquals(0, leetCode.minSubArrayLen(11, thirdTest));
+	}
 }
